@@ -1,0 +1,12 @@
+#!/bin/sh
+
+while [ 1 ]; do
+    /usr/bin/wifi_dump-tmpfs.bin "$@" &  # argument to be passed ?from where 
+    trap "kill $!; rm -f $2; exit" INT TERM
+    echo "the pid of killed process is following "
+    echo $!
+    wait $!
+    trap - INT TERM
+    sleep 10
+    echo "Restarting wifi_dump-tmpfs"
+done
