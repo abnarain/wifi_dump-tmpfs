@@ -11,21 +11,21 @@
 #define MAC_TABLE_DATA_ERR_ENTRIES 4096
 #define MAC_TABLE_CTL_ERR_ENTRIES 2048
 
-#define UPDATE_FILENAME_DIGEST "/tmp/bismark-uploads/wifi_beacons-tmpfs/%s-%" PRIu64 "-digest-%d.gz"
-#define UPDATE_MGMT_FILENAME    "/tmp/bismark-uploads/wifi_beacons-tmpfs/%s-%" PRIu64 "-m-%d-%c.gz"
-#define UPDATE_CONTROL_FILENAME "/tmp/bismark-uploads/wifi_beacons-tmpfs/%s-%" PRIu64 "-c-%d-%c.gz"
-#define UPDATE_DATA_FILENAME    "/tmp/bismark-uploads/wifi_beacons-tmpfs/%s-%" PRIu64 "-d-%d-%c.gz"
-#define UPDATE_PHY_FILENAME    "/tmp/bismark-uploads/wifi_beacons-tmpfs/%s-%" PRIu64 "-p-%d-%c.gz"
+#define UPDATE_FILENAME_DIGEST "/tmp/bismark-uploads/wifi_beacons/%s-%" PRIu64 "-digest-%d.gz"
+#define UPDATE_MGMT_FILENAME    "/tmp/bismark-uploads/wifi_beacons/%s-%" PRIu64 "-m-%d-%c.gz"
+#define UPDATE_CONTROL_FILENAME "/tmp/bismark-uploads/wifi_beacons/%s-%" PRIu64 "-c-%d-%c.gz"
+#define UPDATE_DATA_FILENAME    "/tmp/bismark-uploads/wifi_beacons/%s-%" PRIu64 "-d-%d-%c.gz"
+#define UPDATE_PHY_FILENAME    "/tmp/bismark-uploads/wifi_beacons/%s-%" PRIu64 "-p-%d-%c.gz"
 
-#define UPDATE_FILENAME_COUNTS "/tmp/bismark-uploads/wifi_beacons-tmpfs/%s-%" PRIu64 "-co-%d.gz"
+#define UPDATE_FILENAME_COUNTS "/tmp/bismark-uploads/wifi_beacons/%s-%" PRIu64 "-co-%d.gz"
 
-#define PENDING_UPDATE_MGMT_FILENAME "/tmp/wifi_beacons-tmpfs/current-mgmt-update-%c.gz"
-#define PENDING_UPDATE_CONTROL_FILENAME "/tmp/wifi_beacons-tmpfs/current-control-update-%c.gz"
-#define PENDING_UPDATE_DATA_FILENAME "/tmp/wifi_beacons-tmpfs/current-data-update-%c.gz"
-#define PENDING_UPDATE_PHY_FILENAME "/tmp/wifi_beacons-tmpfs/current-phy-update-%c.gz"
-#define PENDING_UPDATE_FILENAME_DIGEST "/tmp/wifi_beacons-tmpfs/current-digest-update-%c.gz"
+#define PENDING_UPDATE_MGMT_FILENAME "/tmp/wifi_beacons/current-mgmt-update-%c.gz"
+#define PENDING_UPDATE_CONTROL_FILENAME "/tmp/wifi_beacons/current-control-update-%c.gz"
+#define PENDING_UPDATE_DATA_FILENAME "/tmp/wifi_beacons/current-data-update-%c.gz"
+#define PENDING_UPDATE_PHY_FILENAME "/tmp/wifi_beacons/current-phy-update-%c.gz"
+#define PENDING_UPDATE_FILENAME_DIGEST "/tmp/wifi_beacons/current-digest-update-%c.gz"
 
-#define PENDING_UPDATE_COUNTS_FILENAME "/tmp/wifi_beacons-tmpfs/current-count-update.gz"
+#define PENDING_UPDATE_COUNTS_FILENAME "/tmp/wifi_beacons/current-count-update.gz"
 
 
 #define HOMESAW_RX_FRAME_HEADER 58
