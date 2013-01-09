@@ -9,7 +9,7 @@ OBJECTS=  $(SOURCES:.c=.o)
 
 OBJECTS_START= mac-darktest.o 
 #OBJECTS_WRITE= write.o
-EXECUTABLE=wifi_dump-tmpfs
+EXECUTABLE=wifi_dump
 
 all:  $(EXECUTABLE)
 
