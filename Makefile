@@ -3,6 +3,7 @@ CC=gcc
 
 CFLAGS+=-c -Wall -O3 -DOSX  -Wundef -Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common -Werror-implicit-function-declaration 
 LDFLAGS+=  -lm -lz -lpcap 
+#LIBS=
 
 SOURCES=create-interface.c anonymization.c util.c sha1.c   mac-parser.c survey.c write.c
 OBJECTS=  $(SOURCES:.c=.o)
@@ -15,7 +16,7 @@ all:  $(EXECUTABLE)
 
 
 $(EXECUTABLE):   $(OBJECTS) $(OBJECTS_START)
-	$(CC) $(LDFLAGS)  $(OBJECTS)  $(OBJECTS_START) $(LIBS) -o $@
+	$(CC) $(LDFLAGS)  $(OBJECTS)  $(OBJECTS_START) -o $@
 
 $(OBJECTS_START): mac-darktest.c
 	$(CC)  -D_GNU_SOURCE  $(CFLAGS) -o $@ $<
