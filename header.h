@@ -55,8 +55,8 @@ int mac_header_parser(unsigned char * p , int pkt_lent, int cap_len,int type,int
 int mac_header_err_parser(unsigned char * p , int pkt_len, int cap_len) ;
 int scanning();
 
-#define UPDATE_DROPS_FILENAME    "/tmp/bismark-uploads/wifi_dump/%s-%" PRIu64 "-drops-%d-%c.gz"
-#define PENDING_UPDATE_DROPS_FILENAME "/tmp/wifi_dump/current-drops-update-%c.gz"
+#define UPDATE_DROPS_FILENAME    "/tmp/bismark-uploads/mac-analyzer/%s-%" PRIu64 "-drops-%d-%c.gz"
+#define PENDING_UPDATE_DROPS_FILENAME "/tmp/mac-analyzer/current-drops-update-%c.gz"
 
 #ifndef HOMESAW_RX_FRAME_HEADER
 #define HOMESAW_RX_FRAME_HEADER 58
