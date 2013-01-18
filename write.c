@@ -659,7 +659,9 @@ int  address_control_table_update(control_address_table_t *table ,
   }
   return 0 ;
 }
-int address_mgmt_beacon_table_update(mgmt_beacon_address_table_t *table , unsigned char* pkt, struct mgmt_beacon_layer_header *mlh){
+int address_mgmt_beacon_table_update(mgmt_beacon_address_table_t *table , 
+	unsigned char* pkt, 
+	struct mgmt_beacon_layer_header *mlh){
 //	printf("in mgmt  beacon table update \n");
   int idx= table->length ; 
   if (idx <  MAC_TABLE_MGT_BEACON_ENTRIES ) {
@@ -706,7 +708,9 @@ int address_mgmt_common_table_update(mgmt_common_address_table_t *table ,
 }
 
 
-int address_mgmt_err_table_update(mgmt_address_err_table_t *table , unsigned char* pkt, struct mgmt_layer_err_header *mlh){
+int address_mgmt_err_table_update(mgmt_address_err_table_t *table , 
+	unsigned char* pkt, 
+	struct mgmt_layer_err_header *mlh){
 //  printf("in mgmt err table update \n");
   int idx= table->length; 
   if( idx < MAC_TABLE_MGT_ERR_ENTRIES ) {
@@ -756,7 +760,7 @@ int address_mgmt_table_write_update(mgmt_common_address_table_t *common_table,
 
   for (idx=0; idx<common_table->length; idx++){
     struct mgmt_layer_err_header * t =(struct mgmt_layer_err_header *)
-      (table->entries[idx].mgt_content+HOMESAW_RX_FRAME_HEADER);
+      (common_table->entries[idx].mgt_content+HOMESAW_RX_FRAME_HEADER);
     memcpy(t->src_mac,access_point_address_table_lookup(&access_point_mac_address_table,t->src_mac,1),ETH_ALEN);
 
     if(!gzwrite(mgmt_handle,common_table->entries[idx].mgt_content,sizeof(common_table->entries[idx].mgt_content))){      
@@ -852,7 +856,7 @@ int address_control_table_write_update(control_address_table_t * table,
 			tmp_mac=connected_device_address_table_lookup(&devices,y->src_mac ) ;
 		if(tmp_mac ==NULL){
     u_int8_t * kt = (u_int8_t* ) y->src_mac		;	
-    memset(kt+3,0,3); //TODO: XXX do testing here
+    memset(kt+3,0,3); 
 		}else {
 		 memcpy(y->src_mac,tmp_mac,ETH_ALEN);
 		}
