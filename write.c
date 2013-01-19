@@ -340,7 +340,6 @@ int write_update(){
     perror("Could not stage mgmt update\n");
     exit(1);
   }
-	 mgmt_beacon_count=0;
 
   /*done with mgmt update */
   if (!data_handle) {
@@ -386,35 +385,6 @@ int write_update(){
 
   /*done with control update */
 
-#if 0  
-  if (phy_err_flag){
-    char phy_handle_t[FILENAME_MAX];
-    snprintf(phy_handle_t,sizeof(phy_handle_t),PENDING_UPDATE_PHY_FILENAME,ifc);
-    gzFile phy_handle = gzopen (phy_handle_t/*PENDING_UPDATE_PHY_FILENAME*/, "wb");
-    if (!phy_handle) {
-      perror("Could not open update data file for writing\n");
-      exit(1);
-    }
-    char phy_stamp [64];
-    snprintf(phy_stamp,sizeof(phy_stamp), "%s %" PRId64 " %d %" PRId64 "\n",bismark_id,start_timestamp_microseconds,sequence_number,(int64_t)current_timestamp);
-    if(!gzwrite(phy_handle,phy_stamp, strlen(phy_stamp ))){
-      perror("Error writing phy update\n");
-      exit(1);
-    }
-    //XXX:TODO 
-    address_phy_table_write_update(&phy_address_table,phy_handle);
-    gzclose(phy_handle);
-  
-    char update_phy_filename[FILENAME_MAX];
-    snprintf(update_phy_filename,FILENAME_MAX,UPDATE_PHY_FILENAME,bismark_id,start_timestamp_microseconds,sequence_number,ifc);
-    if (rename(phy_handle_t/*PENDING_UPDATE_DATA_FILENAME*/, update_phy_filename)) {
-      perror("Could not stage phy update\n");
-      exit(1);
-    }
-    phy_err_flag=0;
-  }
-#endif	
-  /* done with phy update*/
 #if 1
   static int once_ =0;
   if (once_ ==0){
@@ -445,7 +415,6 @@ int write_update(){
   address_data_table_init(&data_address_table);
   address_mgmt_beacon_table_init(&mgmt_beacon_address_table);
   address_mgmt_common_table_init(&mgmt_common_address_table);
- // address_phy_table_init(&phy_address_table);
   
   address_control_err_table_init(&control_address_table_err);
   address_data_err_table_init(&data_address_table_err);
@@ -455,10 +424,6 @@ int write_update(){
 }
 
 /*Initializing the tables */
-
-void address_phy_table_init(phy_address_table_t* table){
-  memset(table, '\0', sizeof(*table));
-}
 
 void address_mgmt_beacon_table_init(mgmt_beacon_address_table_t* table) {
   memset(table, '\0', sizeof(*table));
@@ -490,17 +455,6 @@ void address_control_err_table_init(control_address_err_table_t* table) {
 }
 /*Update the records in tables */
 
-int address_phy_table_update(phy_address_table_t *table , unsigned char* pkt){
- int idx = table->length;
- if(idx < MAC_TABLE_DATA_ERR_ENTRIES){
-   u_char * buffer = table->entries[idx].phy_content ;
-   memcpy(buffer,pkt, HOMESAW_RX_FRAME_HEADER);
-   table->length++;	
- }else{
-   table->missed++;
- }
- return 0;
-}
 int address_data_err_table_update(data_address_err_table_t*  table,
 				   unsigned char * pkt ,
 				   struct data_layer_err_header *dlh) {
@@ -509,16 +463,6 @@ int address_data_err_table_update(data_address_err_table_t*  table,
   if(idx < MAC_TABLE_DATA_ERR_ENTRIES){
     u_char * buffer = table->entries[idx].data_err_content ; 
     memcpy(buffer,pkt, HOMESAW_RX_FRAME_HEADER); 
-/*
-    if(anonymize_mac(buffer+HOMESAW_RX_FRAME_HEADER+sizeof(dlh->pkt_len),dlh->src_mac)){ 
-      fprintf(stderr, "Error anonymizing MAC mapping\n");                                                                  
-      return -1;                                                                                                           
-    }     
-    if(anonymize_mac(buffer+HOMESAW_RX_FRAME_HEADER+sizeof(dlh->pkt_len)+ETH_ALEN,dlh->dest_mac)){ 
-      fprintf(stderr, "Error anonymizing MAC mapping\n");                                                                  
-      return -1;                                                                                                           
-    }    
-*/
     struct data_layer_err_header * t  = (struct data_layer_err_header *)(buffer+HOMESAW_RX_FRAME_HEADER) ;
     t->pkt_len= dlh->pkt_len;
     t->frame_control = dlh->frame_control;
@@ -886,28 +830,7 @@ int address_control_table_write_update(control_address_table_t * table,
   }
   return 0;
 }
-#if 0 
-int  address_phy_table_write_update(phy_address_table_t *table,
-	 gzFile phy_handle){
-  printf("phy update table\n");
-  int idx =0;
-  for (idx=0; idx<table->length; idx++){
-    if(!gzwrite(phy_handle, table->entries[idx].phy_content,sizeof(table->entries[idx].phy_content))){
-      fprintf(stderr,"Can't write phy frames into handle \n");
-      exit(1);
-    }
-  } 
-  if(!gzwrite(phy_handle, "\n----\n",6)){      
-    fprintf(stderr,"Can't write phy-frame-- frames into handle \n");
-    exit(1);
-  }
-  if(!gzwrite(phy_handle, &table->missed,sizeof(u_int32_t))){      
-    fprintf(stderr,"Can't write phy frames missed into handle \n");
-    exit(1);
-  }
-  return 0;
-}
-#endif 
+
 int address_data_table_write_update(data_address_table_t * table,
 				     data_address_err_table_t * table_err,
 				     gzFile data_handle){
