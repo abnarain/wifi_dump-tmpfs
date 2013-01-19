@@ -61,25 +61,4 @@ int scanning();
 #ifndef HOMESAW_RX_FRAME_HEADER
 #define HOMESAW_RX_FRAME_HEADER 58
 #endif 
-
-#define PHY_TABLE_ENTRIES 1024 
-typedef struct {
- unsigned char phy_content[HOMESAW_RX_FRAME_HEADER];
-} phy_address_table_entry_t; 
-
-typedef struct {
-	phy_address_table_entry_t entries[PHY_TABLE_ENTRIES];
-	u_int16_t length;
-	u_int32_t missed ;
-} phy_address_table_t;
-
-extern int phy_err_flag ; 
-extern phy_address_table_t phy_address_table;
-#include <zlib.h>
-void address_phy_table_init(phy_address_table_t* table);
-int address_phy_table_update(phy_address_table_t *table , unsigned char* pkt);
-int  address_phy_table_write_update(phy_address_table_t *phy_address_table,gzFile phy_handle);
-
-
-
 #endif
