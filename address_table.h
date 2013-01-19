@@ -15,18 +15,15 @@
 #define UPDATE_MGMT_FILENAME    "/tmp/bismark-uploads/mac-analyzer/%s-%" PRIu64 "-m-%d-%c.gz"
 #define UPDATE_CONTROL_FILENAME "/tmp/bismark-uploads/mac-analyzer/%s-%" PRIu64 "-c-%d-%c.gz"
 #define UPDATE_DATA_FILENAME    "/tmp/bismark-uploads/mac-analyzer/%s-%" PRIu64 "-d-%d-%c.gz"
-#define UPDATE_PHY_FILENAME    "/tmp/bismark-uploads/mac-analyzer/%s-%" PRIu64 "-p-%d-%c.gz"
 
 #define UPDATE_FILENAME_COUNTS "/tmp/bismark-uploads/mac-analyzer/%s-%" PRIu64 "-co-%d.gz"
 
 #define PENDING_UPDATE_MGMT_FILENAME "/tmp/mac-analyzer/current-mgmt-update-%c.gz"
 #define PENDING_UPDATE_CONTROL_FILENAME "/tmp/mac-analyzer/current-control-update-%c.gz"
 #define PENDING_UPDATE_DATA_FILENAME "/tmp/mac-analyzer/current-data-update-%c.gz"
-#define PENDING_UPDATE_PHY_FILENAME "/tmp/mac-analyzer/current-phy-update-%c.gz"
 #define PENDING_UPDATE_FILENAME_DIGEST "/tmp/mac-analyzer/current-digest-update-%c.gz"
 
 #define PENDING_UPDATE_COUNTS_FILENAME "/tmp/mac-analyzer/current-count-update.gz"
-
 
 #define HOMESAW_RX_FRAME_HEADER 58
 #define HOMESAW_TX_FRAME_HEADER 42
@@ -102,9 +99,9 @@ typedef struct {
 } control_address_err_table_t;
 
 extern struct control_layer_header * c  ; 
-extern struct mgmt_layer_header * m ; 
 extern struct data_layer_header * d  ; 
-
+extern struct mgmt_beacon_layer_header *mb ;
+extern struct mgmt_layer_err_header *ml 
 
 
 extern mgmt_common_address_table_t mgmt_common_address_table;
@@ -165,7 +162,6 @@ typedef struct {
   int length;
   int added_since_last_update;
 } mac_address_table_t;
-//extern mac_address_table_t mac_address_table ; 
 void mac_address_table_init(mac_address_table_t*  table);
       
 u_int8_t* mac_address_table_lookup(mac_address_table_t* table, uint8_t mac[ETH_ALEN]);
