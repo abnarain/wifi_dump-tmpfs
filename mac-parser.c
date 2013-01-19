@@ -117,13 +117,13 @@ int mac_header_parser(unsigned char * p,
 //		printf("control subtype\n ");
     case CTRL_BAR:
       c_bar  = (const struct ctrl_bar_t *)p;
-      memcpy(c_bar->ra,clh.src_mac,6);
+      memcpy(clh.src_mac,c_bar->ra,6);
       address_control_table_update(&control_address_table , p_start, &clh);
       break ;
 
     case CTRL_PS_POLL :
       c_poll =  (struct ctrl_ps_poll_t *)p;
-      memcpy(c_poll->bssid,clh.src_mac,6);
+      memcpy(clh.src_mac,c_poll->bssid,6);
       address_control_table_update(&control_address_table , p_start, &clh);
       break ;
       
@@ -465,13 +465,13 @@ int mac_header_err_parser(unsigned char *p,
 	
     case CTRL_BAR:
       c_bar  = (const struct ctrl_bar_t *)p;
-      memcpy(c_bar->ra,clh.src_mac,6);
+      memcpy(clh.src_mac,c_bar->ra,6);
       address_control_err_table_update(&control_address_table_err , p_start, &clh);
       break ;
 
     case CTRL_PS_POLL :
       c_poll =  (struct ctrl_ps_poll_t *)p;
-      memcpy(c_poll->bssid,clh.src_mac,6);
+      memcpy(clh.src_mac,c_poll->bssid,6);
       address_control_err_table_update(&control_address_table_err , p_start, &clh);
       break ;
       
