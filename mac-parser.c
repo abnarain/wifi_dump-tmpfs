@@ -116,7 +116,7 @@ int mac_header_parser(unsigned char * p,
     switch(FC_SUBTYPE(fc)){
 //		printf("control subtype\n ");
     case CTRL_BAR:
-      c_bar  = (const struct ctrl_bar_t *)p;
+      c_bar  = (struct ctrl_bar_t *)p;
       memcpy(clh.src_mac,c_bar->ra,6);
       address_control_table_update(&control_address_table , p_start, &clh);
       break ;
@@ -221,7 +221,7 @@ int mac_header_parser(unsigned char * p,
       memcpy(dlh.src_mac,ADDR3,6);
       memcpy(dlh.dest_mac,ADDR1,6);
 //      printf("f in anon 2 \n");
-#if DEBUG
+#ifdef DEBUG
       print_mac(ADDR3,"2 src");
       print_mac(ADDR1,"2 dest");
 #endif      
@@ -298,7 +298,7 @@ int mac_header_err_parser(unsigned char *p,
     clh.pkt_len=pkt_len;
     switch(FC_SUBTYPE(fc)){
     case CTRL_BAR:
-      c_bar  = (const struct ctrl_bar_t *)p;
+      c_bar  = (struct ctrl_bar_t *)p;
       memcpy(c_bar->ra,clh.src_mac,6);
       address_control_err_table_update(&control_address_table_err , p_start, &clh);
       break ;
@@ -464,7 +464,7 @@ int mac_header_err_parser(unsigned char *p,
     switch FC_SUBTYPE(fc) {
 	
     case CTRL_BAR:
-      c_bar  = (const struct ctrl_bar_t *)p;
+      c_bar  = (struct ctrl_bar_t *)p;
       memcpy(clh.src_mac,c_bar->ra,6);
       address_control_err_table_update(&control_address_table_err , p_start, &clh);
       break ;
@@ -686,7 +686,7 @@ int parse_elements(struct mgmt_body_t *pbody, const u_char *p, int offset,u_int 
         return 0;
       if (length < 2)
         return 0;
-      //memcpy(&tim, p + offset, 2);
+      memcpy(&tim, p + offset, 2);
       offset += 2;
       length -= 2;
       if (!TTEST2(*(p + offset), 3))

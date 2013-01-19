@@ -127,7 +127,7 @@ pclose(fp);
  return 0;
 
 }
-
+#if 0
 int survey_stats(gzFile handle_counts){
   char path[1024];
   FILE * fp=NULL;
@@ -236,7 +236,8 @@ int survey_stats(gzFile handle_counts){
 
   return 0;
 }
-
+#endif 
+#if 0
 static unsigned
 get_file_size (const char * file_name)
 {
@@ -296,6 +297,8 @@ int scanning(){
   reader("/tmp/mac-analyzer/fuck");
   printf("done with scanning \n");
 }
+#endif
+
 
 #if 0 
 int scanning(){
