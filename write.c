@@ -683,9 +683,6 @@ int address_mgmt_table_write_update(mgmt_common_address_table_t *common_table,
 
   int idx= 0;
  // printf("in mgmt table write update %d %d \n",sizeof(table->entries[idx].mgt_content),sizeof(table_err->entries[idx].mgt_err_content) ) ;
-	int k=0;
-  //for ( k=0; k<table->length; k++)
-  // printf("%02x \n",table->entries[k].mgt_content);
   for (idx=0; idx<table->length; idx++){
     
     struct mgmt_beacon_layer_header * t =(struct mgmt_beacon_layer_header *)
@@ -696,7 +693,6 @@ int address_mgmt_table_write_update(mgmt_common_address_table_t *common_table,
       exit(1);
     }
   }
-  //  printf("mgmt lost %d\n", table->missed);
     if(!gzwrite(mgmt_handle, "\n----\n",6)){      
       fprintf(stderr,"Can't write -mgmt-beacon frames into handle \n");
       exit(1);
