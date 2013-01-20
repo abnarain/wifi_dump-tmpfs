@@ -635,8 +635,11 @@ int address_mgmt_common_table_update(mgmt_common_address_table_t *table ,
   int idx= table->length ;
   if (idx <  MAC_TABLE_MGT_COMMON_ENTRIES ) {
     u_char * buffer = (table->entries[idx].mgt_content);
-    memcpy(buffer,pkt, HOMESAW_RX_FRAME_HEADER);
-    struct mgmt_beacon_layer_header * t  = (struct mgmt_beacon_layer_header *)(buffer+HOMESAW_RX_FRAME_HEADER) ;
+    struct ieee80211_radiotap_header * hdr ;
+		hdr = (struct ieee80211_radiotap_header *)(pkt);
+		it_len = pletohs(&hdr->it_len);
+    memcpy(buffer,pkt, it_len);
+    struct mgmt_layer_err_header * t  = (struct mgmt_layer_err_header *)(buffer+it_len) ;
     memcpy(t->src_mac,mlh->src_mac,ETH_ALEN);
     t->pkt_len= mlh->pkt_len;
     t->frame_control = mlh->frame_control;
