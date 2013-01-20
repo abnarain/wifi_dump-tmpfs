@@ -721,19 +721,29 @@ int address_mgmt_table_write_update(mgmt_common_address_table_t *common_table,
   for (idx=0; idx<table_err->length; idx++){
     struct mgmt_layer_err_header * t =(struct mgmt_layer_err_header *)
       (table_err->entries[idx].mgt_err_content+HOMESAW_RX_FRAME_HEADER);
-		u_char * tmp_mgmt_mac =NULL;
-			if ( !(table_err->entries[idx].mgt_err_content[2] ==58 || table_err->entries[idx].mgt_err_content[2]==42 ) ){
-							printf("There is Err original sin\n");
-			int idx1=0;                                                                                                     tmp_mgmt_mac=access_point_address_table_lookup(&access_point_mac_address_table,t->src_mac,0);
-		  for (idx1=idx-1; idx1<idx+1; idx1++){                                                                        		if (tmp_mgmt_mac !=NULL)
-				int t =0;                                                                                                      memcpy((u_char*)t->src_mac,tmp_mgmt_mac,ETH_ALEN);
-				for (t=0; t<sizeof(table_err->entries[idx1].mgt_err_content);t++)                                          		else 
-						printf("%02X ",table_err->entries[idx1].mgt_err_content[t] );                                          			memset((u_char*)(t->src_mac)+3,0,3); //tested 
-				printf("\n");                                                                                                  if(!gzwrite(mgmt_handle, table_err->entries[idx].mgt_err_content,sizeof(table_err->entries[idx].mgt_err_content))){
-								 test_mgmt_err_buff(table_err->entries[idx].mgt_err_content) ;                                           fprintf(stderr, "Can't write mgmt err frames into handle \n");
-				}                                                                                                                exit(1);
-			}                                                                                                                }
-  }
+    u_char * tmp_mgmt_mac =NULL;
+    if ( !(table_err->entries[idx].mgt_err_content[2] ==58 || table_err->entries[idx].mgt_err_content[2]==42 ) ){
+      printf("There is Err original sin\n");
+      exit(1) ;
+      int idx1=0; 
+      tmp_mgmt_mac=access_point_address_table_lookup(&access_point_mac_address_table,t->src_mac,0);
+      for (idx1=idx-1; idx1<idx+1; idx1++){ 
+	if (tmp_mgmt_mac !=NULL)
+	  int t =0; 
+	memcpy((u_char*)t->src_mac,tmp_mgmt_mac,ETH_ALEN);
+	for (t=0; t<sizeof(table_err->entries[idx1].mgt_err_content);t++)                                          		
+	else
+	  printf("%02X ",table_err->entries[idx1].mgt_err_content[t] );
+	memset((u_char*)(t->src_mac)+3,0,3); //tested 
+	printf("\n"); 
+	if(!gzwrite(mgmt_handle, table_err->entries[idx].mgt_err_content,sizeof(table_err->entries[idx].mgt_err_content))){
+	  test_mgmt_err_buff(table_err->entries[idx].mgt_err_content) ;
+	  fprintf(stderr, "Can't write mgmt err frames into handle \n");
+	  exit(1);
+	
+	}                                                                                                                
+      }     
+    }
 
     if(!gzwrite(mgmt_handle, "\n----\n",6)){      
       fprintf(stderr,"Can't write -mgmt-afer-- miss frames into handle \n");
@@ -797,14 +807,14 @@ int address_control_table_write_update(control_address_table_t * table,
   for (idx=0; idx<table_err->length; idx++){
     struct control_layer_header * y =(struct control_layer_header *)
       (table_err->entries[idx].ctl_err_content+HOMESAW_RX_FRAME_HEADER);
-			u_char * tmp_mac =NULL;
-			tmp_mac=connected_device_address_table_lookup(&devices,y->src_mac ) ;
-		if(tmp_mac ==NULL){
-    u_int8_t * kt = (u_int8_t* ) y->src_mac		;	
-    memset(kt+3,0,3); 
-		}else {
-		 memcpy(y->src_mac,tmp_mac,ETH_ALEN);
-		}
+    u_char * tmp_mac =NULL;
+    tmp_mac=connected_device_address_table_lookup(&devices,y->src_mac ) ;
+    if(tmp_mac ==NULL){
+      u_int8_t * kt = (u_int8_t* ) y->src_mac		;	
+      memset(kt+3,0,3); 
+    }else {
+      memcpy(y->src_mac,tmp_mac,ETH_ALEN);
+    }
     if(!gzwrite(control_handle,table_err->entries[idx].ctl_err_content,
 		sizeof(table_err->entries[idx].ctl_err_content))){
       fprintf(stderr,"Can't write control err frames into handle\n");
@@ -885,25 +895,25 @@ int address_data_table_write_update(data_address_table_t * table,
     //add demarcator
     printf("in the error table writing \n"); 
     for (idx=0; idx<table_err->length; idx++){    
-         hdr = (struct ieee80211_radiotap_header *)(table_err->entries[idx].data_err_content);
+      hdr = (struct ieee80211_radiotap_header *)(table_err->entries[idx].data_err_content);
       struct data_layer_header * t =(struct data_layer_header *)
 	(table_err->entries[idx].data_err_content+pletohs(&hdr->it_len));
-			u_char* tmp =NULL;
-			tmp=connected_device_address_table_lookup(&devices,t->src_mac ) ;
-			if (tmp ==NULL){			
-		    u_int8_t * kt = (u_int8_t* ) t->src_mac		;	
-		    memset(kt+3,0,3); 
-			}else {
-				memcpy(t->src_mac, tmp,ETH_ALEN);
-			}
-				u_char* tmp_d= NULL;
-				tmp_d=connected_device_address_table_lookup(&devices,t->dest_mac ) ;
-				if (tmp_d ==NULL){			
-				  u_int8_t * kt = (u_int8_t* ) t->dest_mac		;	
-				  memset(kt+3,0,3); 
-				}else {
-					memcpy(t->dest_mac, tmp_d,ETH_ALEN);                                     	
-				}                                    
+      u_char* tmp =NULL;
+      tmp=connected_device_address_table_lookup(&devices,t->src_mac ) ;
+      if (tmp ==NULL){			
+	u_int8_t * kt = (u_int8_t* ) t->src_mac		;	
+	memset(kt+3,0,3); 
+      }else {
+	memcpy(t->src_mac, tmp,ETH_ALEN);
+      }
+      u_char* tmp_d= NULL;
+      tmp_d=connected_device_address_table_lookup(&devices,t->dest_mac ) ;
+      if (tmp_d ==NULL){			
+	u_int8_t * kt = (u_int8_t* ) t->dest_mac		;	
+	memset(kt+3,0,3); 
+      }else {
+	memcpy(t->dest_mac, tmp_d,ETH_ALEN);                                     	
+      }                                    
       if(!gzwrite(data_handle,table_err->entries[idx].data_err_content,sizeof(table_err->entries[idx].data_err_content))){
 	fprintf(stderr,"Can't write data err frames into handle \n");
 	exit(1);
