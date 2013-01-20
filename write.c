@@ -726,23 +726,16 @@ int address_mgmt_table_write_update(mgmt_common_address_table_t *common_table,
     if ( !(table_err->entries[idx].mgt_err_content[2] ==58 || table_err->entries[idx].mgt_err_content[2]==42 ) ){
       printf("There is Err original sin\n");
       exit(1) ;
-      int idx1=0; 
+		}
       tmp_mgmt_mac=access_point_address_table_lookup(&access_point_mac_address_table,t->src_mac,0);
-      for (idx1=idx-1; idx1<idx+1; idx1++){ 
-	if (tmp_mgmt_mac !=NULL)
-	  int t =0; 
-	memcpy((u_char*)t->src_mac,tmp_mgmt_mac,ETH_ALEN);
-	for (t=0; t<sizeof(table_err->entries[idx1].mgt_err_content);t++)                                          		
-	else
-	  printf("%02X ",table_err->entries[idx1].mgt_err_content[t] );
-	memset((u_char*)(t->src_mac)+3,0,3); //tested 
-	printf("\n"); 
+			if (tmp_mgmt_mac !=NULL)
+				memcpy((u_char*)t->src_mac,tmp_mgmt_mac,ETH_ALEN);
+			else
+				memset((u_char*)(t->src_mac)+3,0,3); //tested 
 	if(!gzwrite(mgmt_handle, table_err->entries[idx].mgt_err_content,sizeof(table_err->entries[idx].mgt_err_content))){
 	  test_mgmt_err_buff(table_err->entries[idx].mgt_err_content) ;
 	  fprintf(stderr, "Can't write mgmt err frames into handle \n");
 	  exit(1);
-	
-	}                                                                                                                
       }     
     }
 
