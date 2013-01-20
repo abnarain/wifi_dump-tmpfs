@@ -221,7 +221,6 @@ int mac_header_parser(unsigned char * p,
       memcpy(dlh.src_mac,ADDR3,6);
       memcpy(dlh.dest_mac,ADDR1,6);
 //      printf("f in anon 2 \n");
-asfda
 #ifdef DEBUG
       print_mac(ADDR3,"2 src");
       print_mac(ADDR1,"2 dest");
