@@ -725,7 +725,6 @@ int address_mgmt_table_write_update(mgmt_common_address_table_t *common_table,
     u_char * tmp_mgmt_mac =NULL;
     if ( !(table_err->entries[idx].mgt_err_content[2] ==58 || table_err->entries[idx].mgt_err_content[2]==42 ) ){
       printf("There is Err original sin\n");
-      exit(1) ;
 		}
       tmp_mgmt_mac=access_point_address_table_lookup(&access_point_mac_address_table,t->src_mac,0);
 			if (tmp_mgmt_mac !=NULL)
