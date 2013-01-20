@@ -101,7 +101,7 @@ typedef struct {
 extern struct control_layer_header * c  ; 
 extern struct data_layer_header * d  ; 
 extern struct mgmt_beacon_layer_header *mb ;
-extern struct mgmt_layer_err_header *ml 
+extern struct mgmt_layer_err_header *ml; 
 
 
 extern mgmt_common_address_table_t mgmt_common_address_table;
