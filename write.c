@@ -633,7 +633,7 @@ int address_mgmt_common_table_update(mgmt_common_address_table_t *table ,
 				     struct mgmt_layer_err_header *mlh){
   //	printf("update common table \n");			
   int idx= table->length ;
-	int it_len ; 
+	int16_t it_len ; 
   if (idx <  MAC_TABLE_MGT_COMMON_ENTRIES ) {
     u_char * buffer = (table->entries[idx].mgt_content);
     struct ieee80211_radiotap_header * hdr ;
