@@ -928,7 +928,19 @@ int address_data_table_write_update(data_address_table_t * table,
       fprintf(stderr,"Can't write err data frames missed into handle \n");
       exit(1);
     }
-  // printf("data err lost %d\n", table_err->missed);
-	
+
+    if(!gzwrite(data_handle, "\n----\n",6)){
+      fprintf(stderr,"Can't write after-data-err missed into handle \n");
+      exit(1);
+    }
+
+    for (idx=0; idx<devices.length; idx++){
+      if(!gzwrite(data_handle,devices.entries[idx].hashed_mac_address,sizeof(devices.entries[idx].hashed_mac_address))){
+        fprintf(stderr,"Can't write devices connected to the router  \n");
+        exit(1);
+
+      }
+    }
+    // printf("data err lost %d\n", table_err->missed);
 	return 0; 
 }
