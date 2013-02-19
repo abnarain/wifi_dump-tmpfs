@@ -33,7 +33,7 @@ char bismark_id[256];
 char ifc;
 int phy_err_flag=0 ;
 static pcap_t* pcap_handle = NULL;     
-//#define RATES
+#define RATES
 #ifdef RATES
 static const float ieee80211_float_htrates[MAX_MCS_INDEX+1][2][2] = {
   /* MCS  0  */
