@@ -435,9 +435,9 @@ int tx_path(unsigned char * p,
   present = pletohl(&hdr->it_present);
   offset += sizeof(struct ieee80211_radiotap_header);
 #define DEBUG
- // if (present & BIT(IEEE80211_RADIOTAP_TSFT)) {
-  // printf ("\n tx: tsft %llu \n",  pletoh64(p+offset));
-#if 0
+  if (present & BIT(IEEE80211_RADIOTAP_TSFT)) {
+   printf ("\n tx: tsft %llu \n",  pletoh64(p+offset));
+#if 1
     offset += 8;
   }  
   if( present & BIT(IEEE80211_RADIOTAP_RATE)){
@@ -559,17 +559,17 @@ printf("\n");*/
 	u_int16_t radiotap_len= it_len ;
   present = pletohl(&hdr->it_present);
   offset += sizeof(struct ieee80211_radiotap_header);
-//  if (present & BIT(IEEE80211_RADIOTAP_TSFT)) {					
-//			printf ("\n rx: tsft %llu \n",  pletoh64(p+offset));
-      offset += 8;
-//  }
-//  if (present & BIT(IEEE80211_RADIOTAP_FLAGS)) {
+  if (present & BIT(IEEE80211_RADIOTAP_TSFT)) {					
+	printf ("\n rx: tsft %llu \n",  pletoh64(p+offset));
+    offset += 8;
+  }
+  if (present & BIT(IEEE80211_RADIOTAP_FLAGS)) {
     u_int8_t flags= *(p+offset);
     if (flags	& IEEE80211_RADIOTAP_F_BADFCS){
       bad_fcs =1 ;
 		}
-//	}
-#if 0	
+	}
+#if 1
     offset +=1 ;     
 // 	}
 
@@ -605,16 +605,16 @@ printf("\n");*/
     offset++;
   }
 #endif
-#if 0 	
+#if 1 	
   if (present & BIT(IEEE80211_RADIOTAP_RX_FLAGS )){
     u_int16_t rx_flags=pletohs(p+offset +18 );
     if (rx_flags & 0x20 /*IEEE80211_RADIOTAP_F_HOMESAW_FAILED_PHY*/){
     //  printf(" PHY ERR\n");
-      phy_err_flag =1 ;
-      address_phy_table_update(&phy_address_table,p);
+     // phy_err_flag =1 ;
+      //address_phy_table_update(&phy_address_table,p);
       return 0 ;
     }
-#if 0
+#if 1
     if(rx_flags & 0x10){
       /**/
       		printf("IS AGGREGATTTTTTTTTTTTTTTTED flag \n");
@@ -623,7 +623,7 @@ printf("\n");*/
 #endif 				
   }
 #endif		
-#if 0
+#if 1
   if( present & BIT(IEEE80211_RADIOTAP_MCS )){
 //	offset +=3 ;
 		
@@ -673,9 +673,8 @@ printf("\n");*/
    printf("h\n");*/
   offset +=6;
   if (present & BIT(IEEE80211_RADIOTAP_VENDOR_NAMESPACE )){ 
-   // printf("vendor namespace \n");
+    printf("vendor namespace \n");
   }
-
 
  /* for (u=offset ; u< 6+offset ;u++) 
     printf("%02x ", *(p+u));
@@ -721,11 +720,11 @@ printf("\n");*/
   //printf("%02x ",*(p+k));
   //printf("\n");
   if (bad_fcs) {
- //   printf("bad fcs \n");
-    mac_header_err_parser(p, pkt_len,cap_len);
+    printf("bad fcs \n");
+    //mac_header_err_parser(p, pkt_len,cap_len);
   }
   else{
-   mac_header_parser(p,pkt_len, cap_len,0,radiotap_len);
+   //mac_header_parser(p,pkt_len, cap_len,0,radiotap_len);
 		}
 return 0 ;
 }
