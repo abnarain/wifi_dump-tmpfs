@@ -721,10 +721,10 @@ printf("\n");*/
   //printf("\n");
   if (bad_fcs) {
     printf("bad fcs \n");
-    //mac_header_err_parser(p, pkt_len,cap_len);
+   mac_header_err_parser(p, pkt_len,cap_len);
   }
   else{
-   //mac_header_parser(p,pkt_len, cap_len,0,radiotap_len);
+   mac_header_parser(p,pkt_len, cap_len,0,radiotap_len);
 		}
 return 0 ;
 }
