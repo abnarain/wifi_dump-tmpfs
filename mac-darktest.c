@@ -458,7 +458,7 @@ int tx_path(unsigned char * p,
       printf("flag is rts \n");
     if(tx_flags & IEEE80211_RADIOTAP_F_TX_NOACK)
       printf("flag is no ack\n");
-   	u_int16_t h = IEEE80211_RADIOTAP_F_TX_AGG ;
+   	u_int16_t h = 0x40 ; //IEEE80211_RADIOTAP_F_TX_AGG ;
    	printf("tx flag = %x ; \n",h);
     if (tx_flags & pletohs(&h))
       printf("this is aggregated flag \n");
