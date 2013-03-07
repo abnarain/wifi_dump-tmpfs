@@ -451,6 +451,7 @@ int tx_path(unsigned char * p,
   if (present & BIT(IEEE80211_RADIOTAP_TX_FLAGS)){
     u_int16_t tx_flags =pletohs(p+offset);
 //		printf("tx_flags: %"PRIu16"\n",tx_flags);
+	printf("abhinav is the dude \n");
 		printf("act_flag=%02x %02x \n",*(p+offset),*(p+offset+1));
     if (tx_flags & IEEE80211_RADIOTAP_F_TX_CTS)
       printf("flag is cts \n");
