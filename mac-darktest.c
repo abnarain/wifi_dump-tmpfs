@@ -451,16 +451,15 @@ int tx_path(unsigned char * p,
   if (present & BIT(IEEE80211_RADIOTAP_TX_FLAGS)){
     u_int16_t tx_flags =pletohs(p+offset);
 //		printf("tx_flags: %"PRIu16"\n",tx_flags);
-		printf("%02x %02x \n",*(p+offset),*(p+offset+1));
+		printf("act_flag=%02x %02x \n",*(p+offset),*(p+offset+1));
     if (tx_flags & IEEE80211_RADIOTAP_F_TX_CTS)
       printf("flag is cts \n");
     if(tx_flags & IEEE80211_RADIOTAP_F_TX_RTS)
       printf("flag is rts \n");
     if(tx_flags & IEEE80211_RADIOTAP_F_TX_NOACK)
       printf("flag is no ack\n");
-    u_int8_t g=IEEE80211_RADIOTAP_F_TX_AGG ;
-    u_int16_t h = IEEE80211_RADIOTAP_F_TX_AGG ;
-    //	printf("g is %02x\n",g);
+   	u_int16_t h = IEEE80211_RADIOTAP_F_TX_AGG ;
+   	printf("tx flag = %x ; \n",h);
     if (tx_flags & pletohs(&h))
       printf("this is aggregated flag \n");
     offset +=2;
@@ -559,7 +558,7 @@ printf("\n");*/
   present = pletohl(&hdr->it_present);
   offset += sizeof(struct ieee80211_radiotap_header);
   if (present & BIT(IEEE80211_RADIOTAP_TSFT)) {					
-	printf ("\n rx: tsft %llu \n",  pletoh64(p+offset));
+	//printf ("\n rx: tsft %llu \n",  pletoh64(p+offset));
     offset += 8;
   }
   if (present & BIT(IEEE80211_RADIOTAP_FLAGS)) {
