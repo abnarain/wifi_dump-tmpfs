@@ -434,18 +434,17 @@ int tx_path(unsigned char * p,
   radiotap_len =it_len;
   present = pletohl(&hdr->it_present);
   offset += sizeof(struct ieee80211_radiotap_header);
-#define DEBUG
   if (present & BIT(IEEE80211_RADIOTAP_TSFT)) {
-   printf ("\n tx: tsft %llu \n",  pletoh64(p+offset));
+   //printf ("\n tx: tsft %llu \n",  pletoh64(p+offset));
 #if 1
     offset += 8;
   }  
   if( present & BIT(IEEE80211_RADIOTAP_RATE)){
     int rate =*(p+offset);
     if (rate >= 0x80 && rate <= 0x8f) {
-      printf("rate %u \n",rate & 0x7f);       
+     // printf("rate %u \n",rate & 0x7f);       
     } else {
-      printf("**RATE** %.1f \n", (float)rate / 2);
+      //printf("**RATE** %.1f \n", (float)rate / 2);
     }    
     offset +=2 ; 
   }
@@ -469,11 +468,11 @@ int tx_path(unsigned char * p,
 
 	printf("\n%02x\n",*(p+offset));
   if (present & BIT(IEEE80211_RADIOTAP_DATA_RETRIES)){
-    printf(" data retries %u \n", *(p+offset));
+    //printf(" data retries %u \n", *(p+offset));
     offset++;
   }
   if( present & BIT(IEEE80211_RADIOTAP_MCS)){    
-    printf(" mcs\n ");    
+    //printf(" mcs\n ");    
     u_int8_t mcs_known, mcs_flags;
     u_int8_t mcs;
     u_int8_t bandwidth;
@@ -482,7 +481,7 @@ int tx_path(unsigned char * p,
     mcs_known = *(p+offset) ;
     mcs_flags =  *(p+offset+1);
     mcs = *(p +offset+ 2);
-    printf(" %02x %02x ;mcs_1:%02x mcs_2:%0x mcs_3:%02x \n", *(p+offset-1), *(p+offset-2) ,mcs_known,mcs_flags,mcs);
+    //printf(" %02x %02x ;mcs_1:%02x mcs_2:%0x mcs_3:%02x \n", *(p+offset-1), *(p+offset-2) ,mcs_known,mcs_flags,mcs);
     if (mcs_known & IEEE80211_RADIOTAP_MCS_HAVE_BW) {
       bandwidth = ((mcs_flags & IEEE80211_RADIOTAP_MCS_BW_MASK) == IEEE80211_RADIOTAP_MCS_BW_40) ?
         1 : 0;
@@ -493,12 +492,12 @@ int tx_path(unsigned char * p,
     if (mcs_known & IEEE80211_RADIOTAP_MCS_HAVE_GI) {
       gi_length = (mcs_flags & IEEE80211_RADIOTAP_MCS_SGI) ?       1 : 0;                                               
     } else {
-      printf("else gi\n");
+     // printf("else gi\n");
       gi_length = 0;
       can_calculate_rate = FALSE;     //no GI width  
     }
     if (mcs_known & IEEE80211_RADIOTAP_MCS_HAVE_MCS) {
-      printf("have mcs \n");
+     // printf("have mcs \n");
       can_calculate_rate =1;
     } else{
       can_calculate_rate = FALSE;     // no MCS index 
@@ -506,15 +505,15 @@ int tx_path(unsigned char * p,
     }
     if (can_calculate_rate && mcs <= MAX_MCS_INDEX
         && ieee80211_float_htrates[mcs][bandwidth][gi_length] != 0.0 ) {
-      printf("Data Rate: %.1f Mb/s", ieee80211_float_htrates[mcs][bandwidth][gi_length]);
+   //   printf("Data Rate: %.1f Mb/s", ieee80211_float_htrates[mcs][bandwidth][gi_length]);
     }
     
     offset +=3 ;
   }
 	int k=0;
-	printf("after mcs \n");
-	for(k=0;k<6;k++)
-		printf("%02x ",*(p+offset+k));
+	//printf("after mcs \n");
+	//for(k=0;k<6;k++)
+	//	printf("%02x ",*(p+offset+k));
   if(present & BIT(IEEE80211_RADIOTAP_TOTAL_TIME)){
    printf ("\n total delay%d \n",  pletohl(p+offset));
 
@@ -525,15 +524,15 @@ int tx_path(unsigned char * p,
     offset +=4;
   }
   if (present & BIT(IEEE80211_RADIOTAP_RATES_TRIED)){
-    printf("rate tried \n");
+   // printf("rate tried \n");
 
     int k=0;
       for  (k=offset; k<offset+10; k++)
-   printf("%02x ", *(p+k));
-   printf("\n");
+   //printf("%02x ", *(p+k));
+   //printf("\n");
     offset +=10;
   }else{
- 	printf("no retry: %d:", *(p+offset+10));
+ 	//printf("no retry: %d:", *(p+offset+10));
   }
 #endif   
   mac_header_parser(p,pkt_len,cap_len, 1,radiotap_len);
@@ -569,7 +568,7 @@ printf("\n");*/
       bad_fcs =1 ;
 		}
 	}
-#if 1
+#if 0
     offset +=1 ;     
 // 	}
 
@@ -605,7 +604,7 @@ printf("\n");*/
     offset++;
   }
 #endif
-#if 1 	
+#if 0 	
   if (present & BIT(IEEE80211_RADIOTAP_RX_FLAGS )){
     u_int16_t rx_flags=pletohs(p+offset +18 );
     if (rx_flags & 0x20 /*IEEE80211_RADIOTAP_F_HOMESAW_FAILED_PHY*/){
@@ -623,7 +622,7 @@ printf("\n");*/
 #endif 				
   }
 #endif		
-#if 1
+#if 0
   if( present & BIT(IEEE80211_RADIOTAP_MCS )){
 //	offset +=3 ;
 		
@@ -725,7 +724,7 @@ printf("\n");*/
   }
   else{
    mac_header_parser(p,pkt_len, cap_len,0,radiotap_len);
-		}
+   }
 return 0 ;
 }
 
