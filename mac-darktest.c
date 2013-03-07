@@ -459,10 +459,14 @@ int tx_path(unsigned char * p,
     if(tx_flags & IEEE80211_RADIOTAP_F_TX_NOACK)
       printf("flag is no ack\n");
    	u_int16_t h = 0x40 ; //IEEE80211_RADIOTAP_F_TX_AGG ;
-   	printf("tx flag = %x ; \n",h);
-    if (tx_flags & pletohs(&h))
+	u_char *t = &h ;
+    printf("tx flag  %x = %02x %02x ; \n",h,*t, *(t+1));
+    if (tx_flags & h){
       printf("this is aggregated flag \n");
-    offset +=2;
+	}else {		
+		printf("this is");
+	}
+	offset +=2;
   }
 
 	printf("\n%02x\n",*(p+offset));
