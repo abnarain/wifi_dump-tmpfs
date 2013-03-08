@@ -420,13 +420,13 @@ int tx_path(unsigned char * p,
   u_int16_t it_len; 
   int offset=0;
 // printf("\n radio=%u pkt_len =%d\n", it_len, pkt_len);
-/*
+
   int x=0;
   for(x=0;x<44;x++){
     printf("%02x ",*(p+x));
     if (x%4 == 0 & x!=0)
       printf("\n");
-  }*/
+  }
   struct ieee80211_radiotap_header *hdr;
   hdr = (struct ieee80211_radiotap_header *)p;
   it_len = pletohs(&hdr->it_len);
@@ -465,7 +465,7 @@ int tx_path(unsigned char * p,
     if (tx_flags & h){
       printf("this is aggregated flag \n");
 	}else {		
-		printf("this is");
+		printf("else this is");
 	}
 	offset +=2;
   }
