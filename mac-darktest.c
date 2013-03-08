@@ -778,7 +778,6 @@ static void pkt_update(
     perror("sigprocmask");
     exit(1);
   }
-  printf("main\n");
   
  u_int16_t it_len; 
  struct ieee80211_radiotap_header *hdr;
