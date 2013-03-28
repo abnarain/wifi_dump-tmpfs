@@ -435,7 +435,7 @@ int tx_path(unsigned char * p,
   present = pletohl(&hdr->it_present);
   offset += sizeof(struct ieee80211_radiotap_header);
   if (present & BIT(IEEE80211_RADIOTAP_TSFT)) {
-   //printf ("\n tx: tsft %llu \n",  pletoh64(p+offset));
+   printf ("\n tx: tsft %llu \n",  pletoh64(p+offset));
 #if 1
     offset += 8;
   }  
@@ -518,14 +518,10 @@ int tx_path(unsigned char * p,
 	//printf("after mcs \n");
 	//for(k=0;k<6;k++)
 	//	printf("%02x ",*(p+offset+k));
-  if(present & BIT(IEEE80211_RADIOTAP_TOTAL_TIME)){
-   printf ("\n total delay%d \n",  pletohl(p+offset));
+  if(present & BIT(IEEE80211_RADIOTAP_ENQUEUE_TIME)){
+   printf ("\n enqueue time=%llu \n",  pletoh64(p+offset));
 
-    offset +=4;
-  }
-  if(present & BIT(IEEE80211_RADIOTAP_CONTENTION_TIME)){
-    printf ("\n contention %d \n",  pletohl(p+offset));
-    offset +=4;
+    offset +=8;
   }
   if (present & BIT(IEEE80211_RADIOTAP_RATES_TRIED)){
    // printf("rate tried \n");
