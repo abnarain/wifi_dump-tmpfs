@@ -26,7 +26,7 @@
 #define PENDING_UPDATE_COUNTS_FILENAME "/tmp/mac-analyzer/current-count-update.gz"
 
 #define HOMESAW_RX_FRAME_HEADER 58
-#define HOMESAW_TX_FRAME_HEADER 42
+#define HOMESAW_TX_FRAME_HEADER 48
 
 typedef struct {
   unsigned char mgt_content[HOMESAW_RX_FRAME_HEADER + sizeof( struct mgmt_beacon_layer_header)];

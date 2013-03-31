@@ -420,13 +420,13 @@ int tx_path(unsigned char * p,
   u_int16_t it_len; 
   int offset=0;
 // printf("\n radio=%u pkt_len =%d\n", it_len, pkt_len);
-
+/*
   int x=0;
-  for(x=0;x<44;x++){
+  for(x=0;x<56;x++){
     printf("%02x ",*(p+x));
     if (x%4 == 0 & x!=0)
       printf("\n");
-  }
+  }*/
   struct ieee80211_radiotap_header *hdr;
   hdr = (struct ieee80211_radiotap_header *)p;
   it_len = pletohs(&hdr->it_len);
@@ -442,9 +442,9 @@ int tx_path(unsigned char * p,
   if( present & BIT(IEEE80211_RADIOTAP_RATE)){
     int rate =*(p+offset);
     if (rate >= 0x80 && rate <= 0x8f) {
-     // printf("rate %u \n",rate & 0x7f);       
+  //    printf("rate %u \n",rate & 0x7f);       
     } else {
-      //printf("**RATE** %.1f \n", (float)rate / 2);
+  //    printf("**RATE** %.1f \n", (float)rate / 2);
     }    
     offset +=2 ; 
   }
@@ -463,16 +463,16 @@ int tx_path(unsigned char * p,
 	u_char *t = &h ;
     printf("tx flag  %x = %02x %02x ; \n",h,*t, *(t+1));
     if (tx_flags & h){
-      printf("this is aggregated flag \n");
+      printf("this is aggregated frame \n");
 	}else {		
-		printf("else this is");
+		printf("this is not aggr frame\n");
 	}
 	offset +=2;
   }
 
-	printf("\n%02x\n",*(p+offset));
+	//printf("\n%02x\n",*(p+offset));
   if (present & BIT(IEEE80211_RADIOTAP_DATA_RETRIES)){
-    //printf(" data retries %u \n", *(p+offset));
+   // printf(" data retries %u \n", *(p+offset));
     offset++;
   }
   if( present & BIT(IEEE80211_RADIOTAP_MCS)){    
@@ -509,7 +509,7 @@ int tx_path(unsigned char * p,
     }
     if (can_calculate_rate && mcs <= MAX_MCS_INDEX
         && ieee80211_float_htrates[mcs][bandwidth][gi_length] != 0.0 ) {
-   //   printf("Data Rate: %.1f Mb/s", ieee80211_float_htrates[mcs][bandwidth][gi_length]);
+      printf("Data Rate: %.1f Mb/s", ieee80211_float_htrates[mcs][bandwidth][gi_length]);
     }
     
     offset +=3 ;
@@ -518,21 +518,34 @@ int tx_path(unsigned char * p,
 	//printf("after mcs \n");
 	//for(k=0;k<6;k++)
 	//	printf("%02x ",*(p+offset+k));
-  if(present & BIT(IEEE80211_RADIOTAP_ENQUEUE_TIME)){
-   printf ("\n enqueue time=%llu \n",  pletoh64(p+offset));
-
-    offset +=8;
+  if(present & BIT(IEEE80211_RADIOTAP_TOTAL_TIME)){
+   printf("\n total time diff=%u pkt_len=%d \n",  pletohl(p+offset),pkt_len);
+    offset +=4;
   }
+ if(present & BIT(IEEE80211_RADIOTAP_QUEUE_SIZES)){
+  // printf("\n queue mpdu =%u \n",  pletohs(p+offset));
+    offset +=2;
+  // printf("\n queue ampdu=%u \n",  pletohs(p+offset));
+    offset +=2;
+ }
+ if(present & BIT(IEEE80211_RADIOTAP_COLLECTION)){
+  // printf("\n phy_flag=%u \n",  *(p+offset));
+    offset ++;
+  // printf("\n queue no.=%u \n",  *(p+offset));
+    offset ++;
+ }
   if (present & BIT(IEEE80211_RADIOTAP_RATES_TRIED)){
-   // printf("rate tried \n");
-
-    int k=0;
-      for  (k=offset; k<offset+10; k++)
-   //printf("%02x ", *(p+k));
-   //printf("\n");
-    offset +=10;
+  // printf("rate tried \n");
+  /*
+  int k=0;
+	for  (k=offset; k<offset+15; k++){
+	printf("%02x ", *(p+k));
+    if (k%4 == 0 & k!=0)
+      printf("\n");
+  }*/
+    offset +=15;
   }else{
- 	//printf("no retry: %d:", *(p+offset+10));
+ 	//printf("no retry: %d:", *(p+offset+15));
   }
 #endif   
   mac_header_parser(p,pkt_len,cap_len, 1,radiotap_len);
@@ -700,7 +713,7 @@ printf("\n");*/
   //    printf("%02x %02s  %02x  %02x \n", *(o),*(o+1), *(o+2),*(o+3));
       offset +=4 ;
   }
-	if ( present & BIT(IEEE80211_RADIOTAP_RX_QUEUE_TIME)){
+	if ( present & BIT(IEEE80211_RADIOTAP_TOTAL_TIME)){
 	u_int32_t queue_time=pletohl(p+offset);
 	printf("rx queue time=%u \n",queue_time);
 	offset +=4;
@@ -788,7 +801,7 @@ static void pkt_update(
      printf("\n");
   }
 #endif
-  if (it_len == 42){    
+  if (it_len == 48){    
    tx_path(p,header->len,header->caplen);
   }else if (it_len ==58){
   rx_path(p, header->len,header->caplen);
