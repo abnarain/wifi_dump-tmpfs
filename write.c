@@ -305,7 +305,7 @@ u_char * device_address_table_lookup(mac_address_table_t * table,u_char *mac,int
 
 int write_update(){
  
- 	printf("in write \n"); 
+ //	printf("in write \n"); 
   char mgmt_handle_t[FILENAME_MAX];
   char ctrl_handle_t[FILENAME_MAX];
   char data_handle_t[FILENAME_MAX];
@@ -885,7 +885,7 @@ int address_data_table_write_update(data_address_table_t * table,
       exit(1);
     }
     //add demarcator
-    printf("in the error table writing \n"); 
+    //printf("in the error table writing \n"); 
     for (idx=0; idx<table_err->length; idx++){    
       hdr = (struct ieee80211_radiotap_header *)(table_err->entries[idx].data_err_content);
       struct data_layer_header * t =(struct data_layer_header *)
