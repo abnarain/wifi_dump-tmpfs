@@ -434,9 +434,9 @@ int tx_path(unsigned char * p,
   radiotap_len =it_len;
   present = pletohl(&hdr->it_present);
   offset += sizeof(struct ieee80211_radiotap_header);
-  if (present & BIT(IEEE80211_RADIOTAP_TSFT)) {
-   printf ("\n tx: tsft %llu \n",  pletoh64(p+offset));
-#if 1
+//  if (present & BIT(IEEE80211_RADIOTAP_TSFT)) {
+//   printf ("\n tx: tsft %llu \n",  pletoh64(p+offset));
+#if 0
     offset += 8;
   }  
   if( present & BIT(IEEE80211_RADIOTAP_RATE)){
@@ -732,7 +732,7 @@ printf("\n");*/
   //printf("%02x ",*(p+k));
   //printf("\n");
   if (bad_fcs) {
-    printf("bad fcs \n");
+    //printf("bad fcs \n");
    mac_header_err_parser(p, pkt_len,cap_len);
   }
   else{
