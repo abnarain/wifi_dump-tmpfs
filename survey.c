@@ -72,7 +72,7 @@ int mac_address_map(mac_address_table_t* devices){
 	}
 	}
 pclose(fp);
-	printf("now for wlan1 interface \n");
+//	printf("now for wlan1 interface \n");
    fp=NULL;   fp = popen("iw wlan1 station dump", "r");
   if (fp == NULL) {
     perror("Failed to run wlan0 station dump command\n" );
