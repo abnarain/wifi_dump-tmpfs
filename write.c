@@ -686,7 +686,7 @@ int address_mgmt_table_write_update(mgmt_common_address_table_t *common_table,
 {
 
   int idx= 0;
- // printf("in mgmt table write update %d %d \n",sizeof(table->entries[idx].mgt_content),sizeof(table_err->entries[idx].mgt_err_content) ) ;
+  //printf("in mgmt table write update c=%d err_c=%d \n",sizeof(table->entries[idx].mgt_content),sizeof(table_err->entries[idx].mgt_err_content) ) ;
   for (idx=0; idx<table->length; idx++){
     
     struct mgmt_beacon_layer_header * t =(struct mgmt_beacon_layer_header *)
@@ -772,8 +772,7 @@ int address_control_table_write_update(control_address_table_t * table,
 				       control_address_err_table_t * table_err,
 				       gzFile control_handle){
  int idx= 0;
-  printf("int control table write update %d %d\n",sizeof(table->entries[idx].ctl_content), 
-	sizeof(table_err->entries[idx].ctl_err_content) );
+  //printf("int control table write update c=%d err_c=%d\n",sizeof(table->entries[idx].ctl_content), sizeof(table_err->entries[idx].ctl_err_content) );
   
   
   for (idx=0; idx<table->length; idx++){
@@ -839,7 +838,7 @@ int address_data_table_write_update(data_address_table_t * table,
 				     data_address_err_table_t * table_err,
 				     gzFile data_handle){
   int idx= 0;
-//  printf("int data table write update %d  %d\n", sizeof(table->entries[idx].data_content), sizeof(table_err->entries[idx].data_err_content));
+  //printf("int data table write update content=%d  err_content=%d\n", sizeof(table->entries[idx].data_content), sizeof(table_err->entries[idx].data_err_content));
   struct ieee80211_radiotap_header *hdr;
   
   int it_len=0;
