@@ -792,6 +792,10 @@ static void pkt_update(
  struct ieee80211_radiotap_header *hdr;
  hdr = (struct ieee80211_radiotap_header *)p;
  it_len = pletohs(&hdr->it_len);
+ static int ll=0;
+ ll++;
+ if (ll %100 ==0)
+	printf("pkts=%d\n",ll);
  //def DARK_DEBUG
 #if 0
  int f =0 ;
