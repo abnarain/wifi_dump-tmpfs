@@ -800,7 +800,6 @@ static void pkt_update(
    if (f % 4 == 0)
      printf("\n");
   }
-#endif
   if (it_len == 48){    
    tx_path(p,header->len,header->caplen);
   }else if (it_len ==58){
@@ -809,6 +808,7 @@ static void pkt_update(
 		printf("One must install the modified kernel modules for the package to work. \n");
 		exit(501);
 	}
+#endif
   if (sigprocmask(SIG_UNBLOCK, &block_set, NULL) < 0) {
     perror("sigprocmask");
     exit(1);
@@ -916,7 +916,7 @@ int main(int argc, char *argv[]){
 	mac_address_table_init(&access_point_mac_address_table);
 	mac_address_table_init(&device_mac_address_table);
 
-  address_control_table_init(&control_address_table);
+	address_control_table_init(&control_address_table);
 	address_data_table_init(&data_address_table);
 	address_mgmt_beacon_table_init(&mgmt_beacon_address_table);
 	address_mgmt_common_table_init(&mgmt_common_address_table);
