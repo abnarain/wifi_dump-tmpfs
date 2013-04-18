@@ -787,7 +787,6 @@ static void pkt_update(
     perror("sigprocmask");
     exit(1);
   }
-  
  u_int16_t it_len; 
  struct ieee80211_radiotap_header *hdr;
  hdr = (struct ieee80211_radiotap_header *)p;
@@ -804,6 +803,7 @@ static void pkt_update(
    if (f % 4 == 0)
      printf("\n");
   }
+#endif
   if (it_len == 48){    
    tx_path(p,header->len,header->caplen);
   }else if (it_len ==58){
@@ -812,7 +812,6 @@ static void pkt_update(
 		printf("One must install the modified kernel modules for the package to work. \n");
 		exit(501);
 	}
-#endif
   if (sigprocmask(SIG_UNBLOCK, &block_set, NULL) < 0) {
     perror("sigprocmask");
     exit(1);
@@ -829,12 +828,6 @@ static void handle_signals(int sig) {
     write_update();
     exit(0);
   } else if (sig == SIGALRM) {
-    /*  if (ifc=='0'){
-    if(1){
-      printf("going for scaning ");
-      scanning();
-    }
-*/
     alarm_count += 1;
     if (alarm_count % ALARMS_PER_UPDATE == 0) {
       drops();
