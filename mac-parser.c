@@ -218,7 +218,10 @@ int mac_header_parser(unsigned char * p,
       print_mac(ADDR1,"1 addr1");
 #endif
     } else if (!FC_TO_DS(fc) && FC_FROM_DS(fc)) {
-      memcpy(dlh.src_mac,ADDR3,6);
+	if (radiotap_len ==HOMESAW_TX_FRAME_HEADER )
+	    mac_address_map(&devices,ADDR1);
+
+      memcpy(dlh.src_mac,ADDR2,6); /*copying the BSSID, instead of SRC address */
       memcpy(dlh.dest_mac,ADDR1,6);
 //      printf("f in anon 2 \n");
 #ifdef DEBUG

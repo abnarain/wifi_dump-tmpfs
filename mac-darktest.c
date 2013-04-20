@@ -627,9 +627,8 @@ printf("\n");*/
       return 0 ;
     }
 #if 1
-    if(rx_flags & 0x10){
-      /**/
-      		printf("IS AGGREGATTTTTTTTTTTTTTTTED flag \n");
+    if(rx_flags & 0x10){      
+      		printf("IS AGGREGATED flag \n");
     }
     offset +=2 ;
 #endif 				
@@ -727,10 +726,6 @@ printf("\n");*/
     offset++ ;
   }
 #endif
-  int k ;
-  //for ( k=offset; k<10; k++)
-  //printf("%02x ",*(p+k));
-  //printf("\n");
   if (bad_fcs) {
     //printf("bad fcs \n");
    mac_header_err_parser(p, pkt_len,cap_len);
@@ -791,10 +786,6 @@ static void pkt_update(
  struct ieee80211_radiotap_header *hdr;
  hdr = (struct ieee80211_radiotap_header *)p;
  it_len = pletohs(&hdr->it_len);
- static int ll=0;
- ll++;
- if (ll %100 ==0)
-	printf("pkts=%d\n",ll);
  //def DARK_DEBUG
 #if 0
  int f =0 ;
@@ -832,7 +823,6 @@ static void handle_signals(int sig) {
     if (alarm_count % ALARMS_PER_UPDATE == 0) {
       drops();
     }
-    mac_address_map(&devices);
     write_update();
     set_next_alarm();
   }
@@ -922,6 +912,5 @@ int main(int argc, char *argv[]){
 	address_data_err_table_init(&data_address_table_err);
 	address_mgmt_err_table_init(&mgmt_address_table_err);
 	
-	mac_address_map(&devices);
   return pcap_loop(pcap_handle, -1, pkt_update, NULL);
 }

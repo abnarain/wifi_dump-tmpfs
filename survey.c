@@ -15,6 +15,15 @@
 static void print_mac(u_int8_t* ptr ,const char* type){
   printf("%s; %02x:%02x:%02x:%02x:%02x:%02x\n", type,ptr[0],ptr[1],ptr[2],ptr[3],ptr[4],ptr[5]);
 } 
+
+
+int mac_address_map(mac_address_table_t* devices, u_char* mac_addr){
+ u_char* c_d;
+ c_d= connected_device_address_table_insert(devices,mac_addr);
+ return 0 ;
+}
+
+#if 0
 int mac_address_map(mac_address_table_t* devices){
 
 
@@ -127,7 +136,6 @@ pclose(fp);
  return 0;
 
 }
-#if 0
 int survey_stats(gzFile handle_counts){
   char path[1024];
   FILE * fp=NULL;

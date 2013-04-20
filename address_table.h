@@ -172,7 +172,7 @@ extern mac_address_table_t access_point_mac_address_table ;
 extern mac_address_table_t device_mac_address_table;
 
 
-int mac_address_map(mac_address_table_t* devices);
+int mac_address_map(mac_address_table_t* devices,u_char* mac_addr);
 
 u_char * connected_device_address_table_insert(mac_address_table_t * table,u_char *mac);
 u_char * connected_device_address_table_lookup(mac_address_table_t * table,u_char *mac);
