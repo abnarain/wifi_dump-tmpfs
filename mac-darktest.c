@@ -20,7 +20,6 @@ Code Time period for the software : 1 month (including kernel modifications)
 #define BIT(n)  (1U << n)
 
 int64_t start_timestamp_microseconds;
-//phy_address_table_t phy_address_table ;
 mac_address_table_t devices;
 mac_address_table_t access_point_mac_address_table;
 mac_address_table_t device_mac_address_table;
@@ -778,6 +777,7 @@ static void pkt_update(
 		       u_char* const user,
 		       const struct pcap_pkthdr* const header,
 		       const u_char* const p) {
+#if 0
   if (sigprocmask(SIG_BLOCK, &block_set, NULL) < 0) {
     perror("sigprocmask");
     exit(1);
@@ -787,14 +787,12 @@ static void pkt_update(
  hdr = (struct ieee80211_radiotap_header *)p;
  it_len = pletohs(&hdr->it_len);
  //def DARK_DEBUG
-#if 0
  int f =0 ;
  for(f=0; f<54 ; f++){
    printf("%02x ",*(p+f) );
    if (f % 4 == 0)
      printf("\n");
   }
-#endif
   if (it_len == 48){    
    tx_path(p,header->len,header->caplen);
   }else if (it_len ==58){
@@ -807,6 +805,7 @@ static void pkt_update(
     perror("sigprocmask");
     exit(1);
   }
+#endif
 }
 
 static void set_next_alarm() {
@@ -861,9 +860,9 @@ static void initialize_bismark_id() {
 
 static pcap_t* initialize_pcap(const char* const interface) {
   char errbuf[PCAP_ERRBUF_SIZE];
-  int l =checkup(interface);
+  //int l =checkup(interface);
 	//TODO: check return value and exit ! 
-  printf("return value of checkup %d\n", l);
+ // printf("return value of checkup %d\n", l);
  pcap_t* const handle = pcap_open_live(interface, SNAP_LEN, PCAP_PROMISCUOUS, PCAP_TIMEOUT_MILLISECONDS, errbuf);
   if (!handle) {
     fprintf(stderr, "Couldn't open device %s: %s\n", interface, errbuf);
