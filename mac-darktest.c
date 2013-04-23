@@ -858,23 +858,12 @@ static void initialize_bismark_id() {
   fclose(handle);
 }
 
-static pcap_t* initialize_pcap(const char* const interface) {
-  char errbuf[PCAP_ERRBUF_SIZE];
-  //int l =checkup(interface);
-	//TODO: check return value and exit ! 
- // printf("return value of checkup %d\n", l);
- pcap_t* const handle = pcap_open_live(interface, SNAP_LEN, PCAP_PROMISCUOUS, PCAP_TIMEOUT_MILLISECONDS, errbuf);
-  if (!handle) {
-    fprintf(stderr, "Couldn't open device %s: %s\n", interface, errbuf);
-    return NULL;
-  }
-  //  printf(" DLT_IEEE802_11_RADIO: %d \n", pcap_datalink(handle));
-  return handle;
-}
 
+  //  printf(" DLT_IEEE802_11_RADIO: %d \n", pcap_datalink(handle));
 
 
 int main(int argc, char *argv[]){
+  char errbuf[PCAP_ERRBUF_SIZE];
 
   if (argc <2){
     fprintf(stderr,"Usage : %s monitor interface ", argv[0]);					
@@ -894,10 +883,13 @@ int main(int argc, char *argv[]){
     return 1;
   }
 										 
-  pcap_handle = initialize_pcap(argv[1]);
+ pcap_handle = pcap_open_live(argv[1], SNAP_LEN, PCAP_PROMISCUOUS, PCAP_TIMEOUT_MILLISECONDS, errbuf);
   if (!pcap_handle) {
-    return 1;
+    fprintf(stderr, "Couldn't open device %s: %s\n", argv[1], errbuf);
+    return NULL;
   }
+
+  printf("this is the exact code as anyone else would have ");
   /*
 	mac_address_table_init(&devices);
 	mac_address_table_init(&access_point_mac_address_table);
