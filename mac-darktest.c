@@ -898,6 +898,7 @@ int main(int argc, char *argv[]){
   if (!pcap_handle) {
     return 1;
   }
+  /*
 	mac_address_table_init(&devices);
 	mac_address_table_init(&access_point_mac_address_table);
 	mac_address_table_init(&device_mac_address_table);
@@ -910,6 +911,6 @@ int main(int argc, char *argv[]){
 	address_control_err_table_init(&control_address_table_err);
 	address_data_err_table_init(&data_address_table_err);
 	address_mgmt_err_table_init(&mgmt_address_table_err);
-	
+*/	
   return pcap_loop(pcap_handle, -1, pkt_update, NULL);
 }
