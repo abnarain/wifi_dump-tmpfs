@@ -889,7 +889,7 @@ int main(int argc, char *argv[]){
     return NULL;
   }
 
-  printf("this is the exact code as anyone else would have ");
+  printf("this is the bufsize code\n ");
   /*
 	mac_address_table_init(&devices);
 	mac_address_table_init(&access_point_mac_address_table);
