@@ -162,7 +162,7 @@ int test_data_buff (u_char *buff ){
     printf("pkt len=%d \n", dlh->pkt_len );
 		print_mac(dlh->src_mac,"src mac");
 		print_mac(dlh->dest_mac,"dest mac");
-/*
+// /*
   if (dlh->eth_type == ETHERTYPE_IP){
     printf("IP packet\n");
     if(dlh->ip_type == IPPROTO_UDP){
@@ -184,7 +184,7 @@ int test_data_buff (u_char *buff ){
     printf("icmp\n");
   else 
     printf("Unsure what packet \n");
- */ 
+// */ 
   return 0;
 }
 
@@ -509,13 +509,12 @@ int address_data_table_update(data_address_table_t * table,
       t-> trans_content.udp.dest_port=dlh-> trans_content.udp.dest_port;
     } 
 // */
-  }else {
-    //      printf("in datatable update rx path \n");
+  }else { //rx path 
     if (is_more){ /*the data is from the client attached to Bismark and not encrypted data from surrounding traffic*/
 //     	printf("is_more : client and not enc update \n");
 ///*
 	u_char * buffer = table->entries[idx].data_content ; 
-	memcpy(buffer,pkt, HOMESAW_TX_FRAME_HEADER); 
+	memcpy(buffer,pkt, HOMESAW_RX_FRAME_HEADER); 
     	
 	
 	struct data_layer_header * t  = (struct data_layer_header *)(buffer+HOMESAW_RX_FRAME_HEADER) ;
