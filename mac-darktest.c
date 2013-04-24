@@ -741,7 +741,7 @@ int drops(){
 	static int ps_recv=0;
     struct pcap_stat statistics;
     pcap_stats(pcap_handle, &statistics);
-    //    printf("drops: %d since process creation\n", statistics.ps_drop);
+	printf("drops: %d  %d since process creation\n", statistics.ps_drop,statistics.ps_recv);
     ps_drop=statistics.ps_drop - ps_drop;
     if (ps_drop >0){
       //printf ("There is a drop %u|%u\n",statistics.ps_recv , statistics.ps_drop );
