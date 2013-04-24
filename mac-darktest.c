@@ -777,7 +777,7 @@ static void pkt_update(
 		       u_char* const user,
 		       const struct pcap_pkthdr* const header,
 		       const u_char* const p) {
-#if 0
+
   if (sigprocmask(SIG_BLOCK, &block_set, NULL) < 0) {
     perror("sigprocmask");
     exit(1);
@@ -786,6 +786,7 @@ static void pkt_update(
  struct ieee80211_radiotap_header *hdr;
  hdr = (struct ieee80211_radiotap_header *)p;
  it_len = pletohs(&hdr->it_len);
+#if 0
  //def DARK_DEBUG
  int f =0 ;
  for(f=0; f<54 ; f++){
@@ -793,6 +794,7 @@ static void pkt_update(
    if (f % 4 == 0)
      printf("\n");
   }
+#endif
   if (it_len == 48){    
    tx_path(p,header->len,header->caplen);
   }else if (it_len ==58){
@@ -805,7 +807,7 @@ static void pkt_update(
     perror("sigprocmask");
     exit(1);
   }
-#endif
+
 }
 
 static void set_next_alarm() {
@@ -890,7 +892,6 @@ int main(int argc, char *argv[]){
   }
 
   printf("this is the bufsize BUFSIZ code\n ");
-  /*
 	mac_address_table_init(&devices);
 	mac_address_table_init(&access_point_mac_address_table);
 	mac_address_table_init(&device_mac_address_table);
@@ -903,6 +904,5 @@ int main(int argc, char *argv[]){
 	address_control_err_table_init(&control_address_table_err);
 	address_data_err_table_init(&data_address_table_err);
 	address_mgmt_err_table_init(&mgmt_address_table_err);
-*/	
   return pcap_loop(pcap_handle, -1, pkt_update, NULL);
 }
