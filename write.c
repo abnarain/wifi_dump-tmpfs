@@ -305,7 +305,6 @@ u_char * device_address_table_lookup(mac_address_table_t * table,u_char *mac,int
 
 int write_update(){
  
- //	printf("in write \n"); 
   char mgmt_handle_t[FILENAME_MAX];
   char ctrl_handle_t[FILENAME_MAX];
   char data_handle_t[FILENAME_MAX];
@@ -458,7 +457,6 @@ void address_control_err_table_init(control_address_err_table_t* table) {
 int address_data_err_table_update(data_address_err_table_t*  table,
 				   unsigned char * pkt ,
 				   struct data_layer_err_header *dlh) {
-//  printf("in data err table update \n");
   int idx = table->length;
   if(idx < MAC_TABLE_DATA_ERR_ENTRIES){
     u_char * buffer = table->entries[idx].data_err_content ; 
@@ -483,7 +481,6 @@ int address_data_table_update(data_address_table_t * table,
 			       struct data_layer_header * dlh, 
 			       int path_type, int is_more){
   
-  //	printf("in data table update\n");
 #if 1
   int idx= table->length ; 
   if (idx< MAC_TABLE_DATA_ENTRIES){
@@ -498,7 +495,7 @@ int address_data_table_update(data_address_table_t * table,
     t->pkt_len=	dlh->pkt_len;
     t->frame_control = dlh->frame_control;  
     t->seq_ctrl =  dlh->seq_ctrl;      
-/*
+// /*
     t->eth_type	= dlh->eth_type;
     t->ip_type=dlh->ip_type;
     t->ip_src=dlh->ip_src;
@@ -511,12 +508,12 @@ int address_data_table_update(data_address_table_t * table,
       t-> trans_content.udp.src_port=dlh-> trans_content.udp.src_port;
       t-> trans_content.udp.dest_port=dlh-> trans_content.udp.dest_port;
     } 
-*/
+// */
   }else {
     //      printf("in datatable update rx path \n");
     if (is_more){ /*the data is from the client attached to Bismark and not encrypted data from surrounding traffic*/
 //     	printf("is_more : client and not enc update \n");
-/*
+///*
 	u_char * buffer = table->entries[idx].data_content ; 
 	memcpy(buffer,pkt, HOMESAW_TX_FRAME_HEADER); 
     	
@@ -536,7 +533,7 @@ int address_data_table_update(data_address_table_t * table,
 	  t-> trans_content.udp.src_port=dlh-> trans_content.udp.src_port;
 	  t-> trans_content.udp.dest_port=dlh-> trans_content.udp.dest_port;
 	}
-	*/
+	//*/
     }else { // DATA_TYPE different
       //      printf("different type data \n");
       u_char * buffer = table->entries[idx].data_content ;
@@ -927,19 +924,5 @@ int address_data_table_write_update(data_address_table_t * table,
       fprintf(stderr,"Can't write err data frames missed into handle \n");
       exit(1);
     }
-/*
-    if(!gzwrite(data_handle, "\n----\n",6)){
-      fprintf(stderr,"Can't write after-data-err missed into handle \n");
-      exit(1);
-    }
-
-    for (idx=0; idx<devices.length; idx++){
-      if(!gzwrite(data_handle,devices.entries[idx].hashed_mac_address,sizeof(devices.entries[idx].hashed_mac_address))){
-        fprintf(stderr,"Can't write devices connected to the router  \n");
-        exit(1);
-
-      }
-    } */
-    // printf("data err lost %d\n", table_err->missed);
 	return 0; 
 }

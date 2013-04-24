@@ -19,7 +19,7 @@
 
 int mgmt_beacon_count =0 ;
 
-//int transport_header_parser(u_int16_t , unsigned char * , unsigned char*  , int,int , struct data_layer_header * );
+int transport_header_parser(u_int16_t , unsigned char * , unsigned char*  , int,int , struct data_layer_header * );
 int parse_beacon(unsigned char * p, u_int length, struct mgmt_beacon_layer_header * mlh );
 
 static void print_mac(u_int8_t* ptr ,const char* type){
@@ -507,7 +507,7 @@ int mac_header_err_parser(unsigned char *p,
   return 0; 
 }
 
-#if 0
+#if 1
 int transport_header_parser(u_int16_t fc,unsigned char * p_start,
 			    unsigned char* p,
 			    int pkt_len, 
@@ -516,13 +516,13 @@ int transport_header_parser(u_int16_t fc,unsigned char * p_start,
   if( FC_SUBTYPE(fc)== IEEE80211_FTYPE_DATA   ){     
     p +=8;
     struct llc_hdr * llc = (struct llc_hdr *) p;
-    //dlh->eth_type   =  ntohs(llc->snap.ether_type);		
+    dlh->eth_type   =  ntohs(llc->snap.ether_type);		
 //	printf("header transport fine \n");	
     if ( ntohs(llc->snap.ether_type) == ETHERTYPE_IP  ) {
       struct  iphdr* ih = (struct iphdr*)(llc+1);
-//      dlh->ip_type = ih->protocol ;      
-  //    dlh->ip_src = ih->saddr;
-   //   dlh->ip_dest =  ih->daddr ; 
+      dlh->ip_type = ih->protocol ;      
+     dlh->ip_src = ih->saddr;
+      dlh->ip_dest =  ih->daddr ; 
       //anonymize_ip (ntohl(ih->saddr), &dlh->ip_src); 
       //anonymize_ip (ntohl(ih->daddr), &dlh->ip_dest);   
 	 	u_int32_t src= ntohl(ih->saddr) ;

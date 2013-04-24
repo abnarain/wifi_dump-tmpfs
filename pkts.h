@@ -7,7 +7,6 @@ struct data_layer_header {
   u_int8_t dest_mac[6];
   u_int16_t frame_control ;
   u_int16_t seq_ctrl ;
-/*
   u_int16_t eth_type ;
   u_int8_t ip_type ;
   u_int64_t ip_src ; 
@@ -21,7 +20,6 @@ struct data_layer_header {
       unsigned char tcp_hdr[TCP_HEADER_SIZE] ;
     }tcp ;
   } trans_content;
-*/	
 } ; 
 
 
