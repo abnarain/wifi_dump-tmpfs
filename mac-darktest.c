@@ -883,13 +883,13 @@ int main(int argc, char *argv[]){
     return 1;
   }
 										 
- pcap_handle = pcap_open_live(argv[1], 512, PCAP_PROMISCUOUS, PCAP_TIMEOUT_MILLISECONDS, errbuf);
+ pcap_handle = pcap_open_live(argv[1], BUFSIZ, PCAP_PROMISCUOUS, PCAP_TIMEOUT_MILLISECONDS, errbuf);
   if (!pcap_handle) {
     fprintf(stderr, "Couldn't open device %s: %s\n", argv[1], errbuf);
     return NULL;
   }
 
-  printf("this is the bufsize 512 code\n ");
+  printf("this is the bufsize BUFSIZ code\n ");
   /*
 	mac_address_table_init(&devices);
 	mac_address_table_init(&access_point_mac_address_table);
