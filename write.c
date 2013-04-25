@@ -160,7 +160,7 @@ int test_data_buff (u_char *buff ){
     printf("pkt len=%d \n", dlh->pkt_len );
 		print_mac(dlh->src_mac,"src mac");
 		print_mac(dlh->dest_mac,"dest mac");
-// /*
+#ifdef TRANSPORT_LAYER_CAPTURE
   if (dlh->eth_type == ETHERTYPE_IP){
     printf("IP packet\n");
     if(dlh->ip_type == IPPROTO_UDP){
@@ -182,7 +182,7 @@ int test_data_buff (u_char *buff ){
     printf("icmp\n");
   else 
     printf("Unsure what packet \n");
-// */ 
+#endif
   return 0;
 }
 
