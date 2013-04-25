@@ -18,8 +18,9 @@
 
 
 int mgmt_beacon_count =0 ;
-
+#ifdef TRANSPORT_LAYER_CAPTURE
 int transport_header_parser(u_int16_t , unsigned char * , unsigned char*  , int,int , struct data_layer_header * );
+#endif 
 int parse_beacon(unsigned char * p, u_int length, struct mgmt_beacon_layer_header * mlh );
 
 static void print_mac(u_int8_t* ptr ,const char* type){
@@ -250,7 +251,10 @@ int mac_header_parser(unsigned char * p,
 #undef ADDR3
 #endif		
     address_data_table_update(&data_address_table ,p_start, &dlh,path_type, 0); // is_more flag to write tcp/udp headers
-//    transport_header_parser(fc,p_start,p+hdrlen,pkt_len,path_type,&dlh);
+
+#ifdef TRANSPORT_LAYER_CAPTURE
+	transport_header_parser(fc,p_start,p+hdrlen,pkt_len,path_type,&dlh);
+#endif 
 	break ;
   }
     break;
@@ -507,7 +511,7 @@ int mac_header_err_parser(unsigned char *p,
   return 0; 
 }
 
-#if 1
+#ifdef TRANSPORT_LAYER_CAPTURE
 int transport_header_parser(u_int16_t fc,unsigned char * p_start,
 			    unsigned char* p,
 			    int pkt_len, 

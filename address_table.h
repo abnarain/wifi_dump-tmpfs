@@ -176,4 +176,27 @@ int mac_address_map(mac_address_table_t* devices,u_char* mac_addr);
 
 u_char * connected_device_address_table_insert(mac_address_table_t * table,u_char *mac);
 u_char * connected_device_address_table_lookup(mac_address_table_t * table,u_char *mac);
+
+#ifdef TRANSPORT_LAYER_CAPTURE
+typedef struct {
+  uint32_t ip_address;  /* In host byte order. */
+  uint32_t hashed_ip_address;  /* In host byte order. */
+} ip_address_table_entry_t;
+
+typedef struct {
+  ip_address_table_entry_t entries[MAC_TABLE_ENTRIES];
+  int first;
+  int last;
+  int length;
+  int added_since_last_update;
+} ip_address_table_t;
+
+void address_table_init(ip_address_table_t* const table);
+
+int address_table_lookup(ip_address_table_t* const table, 
+                         const uint32_t ip_address,
+                         const uint32_t hashed_ip_address);
+#endif
+
+
 #endif /*ADDRESS_TABLE_H*/

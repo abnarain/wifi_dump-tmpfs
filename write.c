@@ -30,8 +30,6 @@ control_address_err_table_t control_address_table_err ;
 static void print_mac(u_int8_t* ptr ,const char* type){
   printf("%s; %02x:%02x:%02x:%02x:%02x:%02x\n", type,ptr[0],ptr[1],ptr[2],ptr[3],ptr[4],ptr[5]);
 }
-#include <string.h>
-#include <stdio.h>
 
 static int distance (const u_char * word1,
                      const u_char * word2
@@ -481,11 +479,9 @@ int address_data_table_update(data_address_table_t * table,
 			       struct data_layer_header * dlh, 
 			       int path_type, int is_more){
   
-#if 1
   int idx= table->length ; 
   if (idx< MAC_TABLE_DATA_ENTRIES){
   if (path_type ==1){ //tx path    
-//    printf("in tx path\n");
     u_char * buffer = table->entries[idx].data_content ; 
     memcpy(buffer,pkt, HOMESAW_TX_FRAME_HEADER); 
 
@@ -495,7 +491,7 @@ int address_data_table_update(data_address_table_t * table,
     t->pkt_len=	dlh->pkt_len;
     t->frame_control = dlh->frame_control;  
     t->seq_ctrl =  dlh->seq_ctrl;      
-// /*
+#ifdef TRANSPORT_LAYER_CAPTURE
     t->eth_type	= dlh->eth_type;
     t->ip_type=dlh->ip_type;
     t->ip_src=dlh->ip_src;
@@ -508,11 +504,11 @@ int address_data_table_update(data_address_table_t * table,
       t-> trans_content.udp.src_port=dlh-> trans_content.udp.src_port;
       t-> trans_content.udp.dest_port=dlh-> trans_content.udp.dest_port;
     } 
+#endif 	
 // */
   }else { //rx path 
     if (is_more){ /*the data is from the client attached to Bismark and not encrypted data from surrounding traffic*/
-//     	printf("is_more : client and not enc update \n");
-///*
+#ifdef TRANSPORT_LAYER_CAPTURE
 	u_char * buffer = table->entries[idx].data_content ; 
 	memcpy(buffer,pkt, HOMESAW_RX_FRAME_HEADER); 
     	
@@ -532,6 +528,7 @@ int address_data_table_update(data_address_table_t * table,
 	  t-> trans_content.udp.src_port=dlh-> trans_content.udp.src_port;
 	  t-> trans_content.udp.dest_port=dlh-> trans_content.udp.dest_port;
 	}
+#endif 
 	//*/
     }else { // DATA_TYPE different
       //      printf("different type data \n");
@@ -552,7 +549,6 @@ int address_data_table_update(data_address_table_t * table,
   }else {
    write_update();
   }
-#endif
 	return 0;
 }
 
