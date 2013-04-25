@@ -5,7 +5,7 @@ CFLAGS+=-c -Wall -O3 -DOSX  -Wundef -Wstrict-prototypes -Wno-trigraphs -fno-stri
 LDFLAGS+=  -lm -lz -lpcap 
 #LIBS=
 
-SOURCES=create-interface.c anonymization.c util.c sha1.c   mac-parser.c survey.c write.c
+SOURCES=anonymization.c util.c sha1.c   mac-parser.c survey.c write.c
 OBJECTS=  $(SOURCES:.c=.o)
 
 OBJECTS_START= mac-darktest.o 
