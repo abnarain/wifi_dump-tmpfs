@@ -4,7 +4,7 @@ CC=gcc
 CFLAGS+=-c -Wall -O3 -DOSX  -Wundef -Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common -Werror-implicit-function-declaration 
 LDFLAGS+=  -lm -lz -lpcap 
 #LIBS=
-
+#CFLAGS +=-DDEBUG
 SOURCES=anonymization.c util.c sha1.c   mac-parser.c survey.c write.c
 OBJECTS=  $(SOURCES:.c=.o)
 

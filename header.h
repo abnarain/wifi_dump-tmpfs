@@ -26,7 +26,7 @@ extern int sequence_number ;
 extern int mgmt_beacon_count ; 
 extern time_t current_timestamp ;  
 extern char bismark_id[256];
-int write_update();
+int write_update(void);
 extern char ifc ;
 
 #define pletohs(p)  ((u_int16_t)                       \
@@ -37,8 +37,6 @@ extern char ifc ;
   (u_int32_t)*((const u_int8_t *)(p)+2)<<16|  \
   (u_int32_t)*((const u_int8_t *)(p)+1)<<8|   \
 		     (u_int32_t)*((const u_int8_t *)(p)+0)<<0)
-
-
 
 #define pletoh64(p) ((u_int64_t)*((const u_int8_t *)(p)+7)<<56|  \
   (u_int64_t)*((const u_int8_t *)(p)+6)<<48|  \
@@ -51,9 +49,9 @@ extern char ifc ;
 
 extern unsigned char * snapend;
 int checkup(char * device);
-int mac_header_parser(unsigned char * p , int pkt_lent, int cap_len,int type,int radiotap_len ) ;
+int mac_header_parser(unsigned char * p, int pkt_lent, int cap_len,int type,int radiotap_len ) ;
 int mac_header_err_parser(unsigned char * p , int pkt_len, int cap_len) ;
-int scanning();
+int scanning(void);
 
 #define UPDATE_DROPS_FILENAME    "/tmp/bismark-uploads/mac-analyzer/%s-%" PRIu64 "-drops-%d-%c.gz"
 #define PENDING_UPDATE_DROPS_FILENAME "/tmp/mac-analyzer/current-drops-update-%c.gz"

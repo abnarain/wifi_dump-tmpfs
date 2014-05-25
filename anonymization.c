@@ -19,12 +19,14 @@ static int initialized = 0;
  * bytes long. */
 static void anonymization_process(const uint8_t* const data,
                                   const int len,
-                                  unsigned char* const digest) {
+                                  unsigned char* const digest)
+{
   assert(initialized);
   sha1_hmac(seed, ANONYMIZATION_SEED_LEN, data, len, digest);
 }
 
-static int init_hex_seed_digest() {
+static int init_hex_seed_digest()
+{
   unsigned char seed_digest[SHA_DIGEST_LENGTH];
   anonymization_process(seed, ANONYMIZATION_SEED_LEN, seed_digest);
   const char* hex_digest = buffer_to_hex(seed_digest, SHA_DIGEST_LENGTH);
@@ -36,7 +38,8 @@ static int init_hex_seed_digest() {
   return 0;
 }
 
-int anonymization_init() {
+int anonymization_init()
+{
   FILE* handle = fopen(ANONYMIZATION_SEED_FILE, "rb");
   if (!handle) {
     perror("Error opening seed file");
@@ -61,7 +64,8 @@ int anonymization_init() {
 #define MAC_UPPER_MASK 0xffffff000000
 #define MAC_LOWER_MASK 0x000000ffffff
 
-inline int anonymize_mac(uint8_t mac[ETH_ALEN], uint8_t digest[ETH_ALEN]) {
+inline int anonymize_mac(uint8_t mac[ETH_ALEN], uint8_t digest[ETH_ALEN])
+{
   unsigned char mac_digest[ANONYMIZATION_DIGEST_LENGTH];
   anonymization_process(mac, ETH_ALEN, mac_digest);
   memcpy(digest, mac_digest, ETH_ALEN);
@@ -69,7 +73,8 @@ inline int anonymize_mac(uint8_t mac[ETH_ALEN], uint8_t digest[ETH_ALEN]) {
   return 0;
 }
 
-inline int anonymize_ip(uint32_t address, uint64_t* digest) {
+inline int anonymize_ip(uint32_t address, uint64_t* digest)
+{
   unsigned char address_digest[ANONYMIZATION_DIGEST_LENGTH];
   anonymization_process((unsigned char*)&address,
 			sizeof(address),
@@ -78,8 +83,8 @@ inline int anonymize_ip(uint32_t address, uint64_t* digest) {
   return 0;
 }
 
-
-int anonymization_write_update(gzFile handle) {
+int anonymization_write_update(gzFile handle)
+{
   if (!gzprintf(handle, "%s\n\n", seed_hex_digest)) {
     perror("Error writing update");
     return -1;

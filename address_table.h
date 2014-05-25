@@ -98,10 +98,10 @@ typedef struct {
 	u_int32_t missed ;
 } control_address_err_table_t;
 
-extern struct control_layer_header * c  ; 
-extern struct data_layer_header * d  ; 
-extern struct mgmt_beacon_layer_header *mb ;
-extern struct mgmt_layer_err_header *ml; 
+extern struct control_layer_header* c  ; 
+extern struct data_layer_header* d  ; 
+extern struct mgmt_beacon_layer_header* mb ;
+extern struct mgmt_layer_err_header* ml; 
 
 
 extern mgmt_common_address_table_t mgmt_common_address_table;
@@ -112,50 +112,69 @@ extern mgmt_address_err_table_t mgmt_address_table_err;
 void address_mgmt_beacon_table_init(mgmt_beacon_address_table_t* table);
 void address_mgmt_common_table_init(mgmt_common_address_table_t* table);
 void address_mgmt_err_table_init(mgmt_address_err_table_t* table);
-int address_mgmt_beacon_table_update(mgmt_beacon_address_table_t *table , unsigned char* pkt, struct mgmt_beacon_layer_header *mlh);
-int address_mgmt_common_table_update(mgmt_common_address_table_t *table , unsigned char* pkt, struct mgmt_layer_err_header *mlh); /*mgmt_err_layer_header is used since this is all we got */
-int address_mgmt_err_table_update(mgmt_address_err_table_t *table , unsigned char* pkt, struct mgmt_layer_err_header *mlh);
+
+int address_mgmt_beacon_table_update(mgmt_beacon_address_table_t* table,
+				     unsigned char* pkt,
+				     struct mgmt_beacon_layer_header* mlh);
+
+int address_mgmt_common_table_update(mgmt_common_address_table_t* table,
+				     unsigned char* pkt,
+				     struct mgmt_layer_err_header* mlh); 
+
+int address_mgmt_err_table_update(mgmt_address_err_table_t *table,
+				  unsigned char* pkt,
+				  struct mgmt_layer_err_header *mlh);
 
 int  address_mgmt_table_write_update(mgmt_common_address_table_t *mgmt_common_address_table,
-	mgmt_beacon_address_table_t *mgmt_beacon_address_table,
-  mgmt_address_err_table_t *mgmt_address_table_err,
-	  gzFile mgmt_handle);
+				     mgmt_beacon_address_table_t *mgmt_beacon_address_table,
+				     mgmt_address_err_table_t *mgmt_address_table_err,
+				     gzFile mgmt_handle);
 
 extern data_address_table_t data_address_table;
 extern data_address_err_table_t data_address_table_err;
 
 void address_data_table_init(data_address_table_t* table);
 void address_data_err_table_init(data_address_err_table_t* table);
-int address_data_table_update(data_address_table_t * table ,unsigned char * pkt, struct data_layer_header* dlh ,int path_type, int is_more );
-int address_data_err_table_update(data_address_err_table_t * table,unsigned char* pkt,struct data_layer_err_header * dlh );
-int  address_data_table_write_update(data_address_table_t * data_address_table,
-  data_address_err_table_t * data_address_table_err,
-	  gzFile  data_handle);
 
+int address_data_table_update(data_address_table_t* table,
+			      unsigned char* pkt,
+			      struct data_layer_header* dlh,
+			      int path_type,
+			      int is_more );
+int address_data_err_table_update(data_address_err_table_t* table,
+				  unsigned char* pkt,
+				  struct data_layer_err_header * dlh );
+
+int  address_data_table_write_update(data_address_table_t* data_address_table,
+				     data_address_err_table_t * data_address_table_err,
+				     gzFile  data_handle);
 
 extern control_address_table_t control_address_table;
 extern control_address_err_table_t control_address_table_err;
 
 void address_control_table_init(control_address_table_t* table);
 void address_control_err_table_init(control_address_err_table_t* table);
-int address_control_table_update(control_address_table_t *table , unsigned char* pkt, struct control_layer_header *clh);
-int address_control_err_table_update(control_address_err_table_t *table , 
-				      unsigned char* pkt, struct control_layer_header *clh);
+
+int address_control_table_update(control_address_table_t *table, 
+				 unsigned char* pkt,
+				 struct control_layer_header *clh);
+int address_control_err_table_update(control_address_err_table_t *table, 
+				     unsigned char* pkt,
+				     struct control_layer_header *clh);
 
 int  address_control_table_write_update(control_address_table_t *control_address_table,
-  control_address_err_table_t * control_address_table_err,
-	  gzFile control_handle);
-
+					control_address_err_table_t * control_address_table_err,
+					gzFile control_handle);
 
 /* A mapping from IP address to MAC address. */
 typedef struct {
-		uint8_t hashed_mac_address[ETH_ALEN];  /* In host byte order. */
-		uint8_t mac_address[ETH_ALEN];
+  uint8_t hashed_mac_address[ETH_ALEN];  /* In host byte order. */
+  uint8_t mac_address[ETH_ALEN];
 } address_table_entry_t;
 
 typedef struct {         
-				  /* A list of MAC mappings. A mapping ID is simply
-					   * that mapping's index offset into this array. */
+  /* A list of MAC mappings. A mapping ID is simply
+   * that mapping's index offset into this array. */
   address_table_entry_t entries[MAC_TABLE_ENTRIES];
   int first;
   int last;
@@ -166,14 +185,12 @@ void mac_address_table_init(mac_address_table_t*  table);
       
 u_int8_t* mac_address_table_lookup(mac_address_table_t* table, uint8_t mac[ETH_ALEN]);
 
-
 extern mac_address_table_t devices ;
 extern mac_address_table_t access_point_mac_address_table ;
 extern mac_address_table_t device_mac_address_table;
 
 
 int mac_address_map(mac_address_table_t* devices,u_char* mac_addr);
-
 u_char * connected_device_address_table_insert(mac_address_table_t * table,u_char *mac);
 u_char * connected_device_address_table_lookup(mac_address_table_t * table,u_char *mac);
 
@@ -197,6 +214,5 @@ int address_table_lookup(ip_address_table_t* const table,
                          const uint32_t ip_address,
                          const uint32_t hashed_ip_address);
 #endif
-
 
 #endif /*ADDRESS_TABLE_H*/
